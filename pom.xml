@@ -6,7 +6,7 @@
 
   <groupId>com.github.rccookie</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.0</version>
+  <version>1.0.1</version>
 
   <name>geometry</name>
   <!-- FIXME change it to the project's website -->
@@ -26,8 +26,8 @@
     </dependency>
     <dependency>
       <groupId>com.github.rccookie</groupId>
-      <artifactId>rccookie-common</artifactId>
-      <version>0.1.6.2</version>
+      <artifactId>data</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 
