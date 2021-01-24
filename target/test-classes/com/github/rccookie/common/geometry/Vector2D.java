@@ -283,14 +283,14 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * Returns a new vector that represents the reflected version of
      * {@code reflect} reflecting of {@code base}.
      * 
-     * @param base The vector to reflect from
-     * @param reflect The vector that reflects from{@code base}
+     * @param wall The vector to reflect from
+     * @param vector The vector that reflects from{@code base}
      * @return A new vector representing the reflection of {@code reflect} form {@code base}
      */
-    public static Vector2D reflect(Vector2D base, Vector2D reflect){
-        Objects.requireNonNull(base);
-        Objects.requireNonNull(reflect);
-        return angledVector(base.angle() + angleBetween(base, reflect), reflect.abs());
+    public static Vector2D reflect(Vector2D wall, Vector2D vector){
+        Objects.requireNonNull(wall);
+        Objects.requireNonNull(vector);
+        return angledVector(wall.angle() + vector.angleTo(wall), vector.abs());
     }
 
     /**
