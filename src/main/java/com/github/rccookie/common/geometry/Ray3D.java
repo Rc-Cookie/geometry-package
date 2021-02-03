@@ -1,6 +1,6 @@
 package com.github.rccookie.common.geometry;
 
-public class Ray3D extends Ray<Ray3D, Vector3D> {
+public class Ray3D extends AbstractRay<Ray3D, Vector3D> {
 
     private static final long serialVersionUID = -8650630289610786798L;
 

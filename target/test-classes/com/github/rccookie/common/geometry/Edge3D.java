@@ -1,6 +1,6 @@
 package com.github.rccookie.common.geometry;
 
-public class Edge3D extends Edge<Edge3D, Ray3D, Vector3D> {
+public class Edge3D extends AbstractEdge<Edge3D, Ray3D, Vector3D> {
 
     private static final long serialVersionUID = 1108198518872572190L;
 

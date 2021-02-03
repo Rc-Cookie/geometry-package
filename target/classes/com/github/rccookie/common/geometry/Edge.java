@@ -1,53 +1,41 @@
 package com.github.rccookie.common.geometry;
 
-import java.util.Objects;
-
 import com.github.rccookie.common.data.Saveable;
 
-public abstract class Edge<E extends Edge<E,R,V>, R extends Ray<R,V>, V extends AbstractVector<V>> implements Cloneable, Saveable {
+public interface Edge extends Cloneable, Saveable {
 
-    private static final long serialVersionUID = 3414466976248623695L;
+    public Ray ray();
 
+    public Vector root();
 
-    private final R ray;
+    public Vector edge();
 
+    public Vector get(double r);
 
-    public Edge(Edge<E,R,V> copy) {
-        this(copy.ray());
-    }
-    public Edge(Ray<R,V> ray) {
-        this.ray = ray.clone();
-    }
+    public double length();
 
-
-    public R ray() { return ray; }
-
-    public V root() { return ray().root(); }
-
-    public V edge() { return ray().direction(); }
-
-    public V get(double index) { return ray.get(index); }
-
-    public double length() { return edge().abs(); }
-
-
-    @Override
-    protected abstract E clone();
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof Edge3D)) return false;
-        return Objects.equals(ray(), ((Edge3D)obj).ray());
+    public default Edge2D get2D() {
+        return new Edge2D(ray().get2D());
     }
 
-    @Override
-    public int hashCode() {
-        return ray().hashCode() + 1;
+    public default Edge3D get3D() {
+        return new Edge3D(ray().get3D());
     }
 
-    @Override
-    public String toString() {
-        return "{root: " + root() + ", edge: " + edge() + " (" + edge().abs() + " units)}";
+
+
+    public static double[] intersection(Edge e, Ray r) {
+        double[] intersection = Ray.intersection(e.ray(), r);
+        return (intersection == null || intersection[0] < 0 || intersection[0] > 1) ? null : intersection;
+    }
+
+    public static double[] intersection(Edge e, Edge f) {
+        double[] intersection = Ray.intersection(e.ray(), f.ray());
+        return (intersection == null || intersection[0] < 0 || intersection[0] > 1 || intersection[1] < 0 || intersection[1] > 1) ? null : intersection;
+    }
+
+    public static Double intersection(Edge e, Vector p) {
+        double posA = (p.x() - e.root().x()) / e.edge().x();
+        return (posA >= 0 && posA <= 1 && (p.y() - e.root().y()) / e.edge().y() == posA) ? posA : null;
     }
 }

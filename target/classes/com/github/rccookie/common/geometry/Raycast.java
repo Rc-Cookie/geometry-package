@@ -47,7 +47,7 @@ public final class Raycast {
 
 
     private static final Raycast2D raycast2D(final Ray2D ray, final Edge2D edge, double maxLength) {
-        double[] intersection = Edge2D.intersection(edge, ray);
+        double[] intersection = Edge.intersection(edge, ray);
         if(intersection == null || intersection[1] < 0) return null;
         return new Raycast2D(intersection[0], intersection[1], edge, ray, maxLength);
     }

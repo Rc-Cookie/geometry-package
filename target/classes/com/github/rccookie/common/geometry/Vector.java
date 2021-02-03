@@ -1,5 +1,7 @@
 package com.github.rccookie.common.geometry;
 
+import java.util.Objects;
+
 import com.github.rccookie.common.data.Saveable;
 
 public interface Vector extends Cloneable, Saveable {
@@ -533,5 +535,30 @@ public interface Vector extends Cloneable, Saveable {
         protected DimensionOutOfBoundsException(int dimension, int size) {
             super("The dimension " + dimension + " is not available for a vector with " + size + " dimensions");
         }
+    }
+
+
+
+
+    // ------------------------------------------------------------------------------------
+    // Statics
+    // ------------------------------------------------------------------------------------
+
+
+
+
+    /**
+     * Returns the vector that starts at the location of {@code from} and points at the location
+     * of {@code to}.
+     * 
+     * @param from The starting location
+     * @param to The ending location
+     * @return The vector connecting the two vectors
+     */
+    public static Vector between(Vector from, Vector to) {
+        Objects.requireNonNull(from);
+        Objects.requireNonNull(to);
+        if(from.size() > to.size()) return from.inverted().add(to);
+        return to.subtracted(from);
     }
 }

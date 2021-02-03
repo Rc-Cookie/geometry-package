@@ -1,66 +1,48 @@
 package com.github.rccookie.common.geometry;
 
-import java.util.Objects;
-
 import com.github.rccookie.common.data.Saveable;
 
-public abstract class Ray<R extends Ray<R,V>, V extends AbstractVector<V>> implements Cloneable, Saveable {
+public interface Ray extends Cloneable, Saveable {
 
-    private static final long serialVersionUID = 9028705762521913495L;
+    public Vector get(double r);
 
-    private final V root;
-    private final V direction;
+    public Vector root();
 
-    public Ray(Ray<R,V> copy) {
-        this(copy.root(), copy.direction());
-    }
+    public Vector direction();
 
-    public Ray(V root, V direction) {
-        this.root = root.clone();
-        this.direction = direction.clone();
-    }
+    public int size();
 
 
 
-    public V get(double r) {
-        return direction().scaled(r).add(root());
-    }
-
-    public V root() { return root; }
-    public V direction() { return direction; }
-
-    public int size() {
-        return root.size();
-    }
-
-    public Ray2D get2D() {
+    public default Ray2D get2D() {
         return new Ray2D(root().get2D(), direction().get2D());
     }
 
-    public Ray3D get3D() {
-        return new Ray3D(root.get3D(), direction.get3D());
+    public default Ray3D get3D() {
+        return new Ray3D(root().get3D(), direction().get3D());
     }
 
 
 
-    @Override
-    protected abstract R clone();
+    /**
+     * Calculates weather and if so where the two given rays intersect.
+     * 
+     * @param a The first ray
+     * @param b The second ray
+     * @return A two dimensional array containing the two distances from the rays' roots measured
+     * in their direction vectors, or {@code null} if they are parallel
+     */
+    public static double[] intersection(Ray a, Ray b) {
+        double aHit = a.direction().x() * a.root().y() - a.direction().y() * a.root().x();
+        aHit += a.direction().y() * b.root().x() - a.direction().x() * b.root().y();
+        aHit /= a.direction().x() * b.direction().y() - a.direction().y() * b.direction().x();
 
+        if(Double.isNaN(aHit)) return null;
 
+        double bHit = b.direction().x() * b.root().y() - b.direction().y() * b.root().x();
+        bHit += b.direction().y() * a.root().x() - b.direction().x() * a.root().y();
+        bHit /= b.direction().x() * a.direction().y() - b.direction().y() * a.direction().x();
 
-    @Override
-    public String toString() {
-        return "ray from " + root() + " towards " + direction();
-    }
-
-    @Override
-    public int hashCode() {
-        return root().hashCode() * direction().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof Ray3D)) return false;
-        return Objects.equals(root(), ((Ray3D)obj).root()) && Objects.equals(direction(), ((Ray3D)obj).direction());
+        return new double[] {bHit, aHit};
     }
 }
