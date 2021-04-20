@@ -6,7 +6,7 @@
 
   <groupId>com.github.rccookie</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.0.2.6</version>
+  <version>1.1.0.0</version>
 
   <name>geometry</name>
 
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>com.github.rccookie</groupId>
       <artifactId>data</artifactId>
-      <version>1.0.0.1</version>
+      <version>1.1.0.0</version>
     </dependency>
   </dependencies>
 
