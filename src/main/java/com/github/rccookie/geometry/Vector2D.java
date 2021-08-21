@@ -1,10 +1,10 @@
 package com.github.rccookie.geometry;
 
-import java.util.Objects;
+import com.github.rccookie.util.Arguments;
 
 /**
  * A 2-dimensional vector based on {@link Vector}.
- * <p>2-dimensional vectors add the option to measure angles and calcutale
+ * <p>2-dimensional vectors add the option to measure angles and calculate
  * cross products. With that the class also contains useful methods to use
  * this information to interact with 2D vectors.
  * 
@@ -22,14 +22,14 @@ public class Vector2D extends AbstractVector<Vector2D> {
     public static final Vector2D ZERO_VECTOR = new Vector2D();
 
     /**
-     * A vector pointing along the x axis with the length of 1. Representation
-     * of the x axis.
+     * A vector pointing along the x-axis with the length of 1. Representation
+     * of the x-axis.
      */
     public static final Vector2D UNIT_VECTOR_X = new Vector2D(1);
 
     /**
-     * A vector pointing along the y axis with the length of 1. Representation
-     * of the y axis.
+     * A vector pointing along the y-axis with the length of 1. Representation
+     * of the y-axis.
      */
     public static final Vector2D UNIT_VECTOR_Y = new Vector2D(0, 1);
 
@@ -44,7 +44,7 @@ public class Vector2D extends AbstractVector<Vector2D> {
     }
 
     /**
-     * Creates a new vector with the given length parallel to the x axis.
+     * Creates a new vector with the given length parallel to the x-axis.
      * 
      * @param x The x length of the vector
      */
@@ -93,7 +93,10 @@ public class Vector2D extends AbstractVector<Vector2D> {
         return new Vector2D(this);
     }
 
-
+    @Override
+    public Vector2D get2D() throws UnsupportedOperationException {
+        return this;
+    }
 
 
 
@@ -125,7 +128,7 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return The angle between the vectors, from -180° to 180°
      */
     public double angleTo(Vector2D vector) {
-        return Math.toDegrees(Math.atan2(cross(this, vector), dot(this, vector)));
+        return Math.toDegrees(Math.atan2(cross(this, vector), Vector.dot(this, vector)));
     }
 
     /**
@@ -135,13 +138,14 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return This vector
      */
     public Vector2D rotate(double angle) {
-        if(angle % 360 == 0) return this;
-        if(angle % 180 == 0) return invert();
-        double length = abs();
-        double newAngle = angle + angle();
+        if(angle == 0) return this;
+        double radians = Math.toRadians(angle);
+        double sin = Math.sin(radians);
+        double cos = Math.cos(radians);
+        double x = x(), y = y();
         return set(
-            length * Math.cos(Math.toRadians(newAngle)),
-            length * Math.sin(Math.toRadians(newAngle))
+            x * cos - y * sin,
+            x * sin + y * cos
         );
     }
 
@@ -174,51 +178,34 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * 
      * @param angle The angle of the new Vector
      * @param length The length of the new vector
+     * @deprecated Use {@link #angled(double, double)} instead.
      */
+    @Deprecated(forRemoval = true)
     public static Vector2D angledVector(double angle, double length){
-        return new Vector2D(
-            length * Math.cos(Math.toRadians(angle)),
-            length * Math.sin(Math.toRadians(angle))
-        );
+        return angled(angle, length);
     }
 
     /**
-     * Creates a new Vector that points from {@code v} to {@code w}.
-     * 
-     * @param from The start point of the vector
-     * @param to The end point of the vector
-     * @return The vector between {@code v} and {@code w}
+     * Creates a new vector with the given angle and length in that
+     * direction. If the length is negative, the vector will point in
+     * the opposite direction.
+     *
+     * @param angle The angle of the new vector
+     * @param length The length of the new vector
      */
-    public static Vector2D between(Vector2D from, Vector2D to){
-        Objects.requireNonNull(from);
-        Objects.requireNonNull(to);
-        return to.subtracted(from);
+    public static Vector2D angled(double angle, double length) {
+        return angled(angle).scale(length);
     }
 
     /**
-     * Returns the average of all the given vectors
-     * 
-     * @param vectors The vectors to take the average of
-     * @return A vector representing the average of all the given vectors
+     * Creates a new vector with the given angle and a length of {@code 1} in that
+     * direction.
+     *
+     * @param angle The angle of the new vector
      */
-    public static Vector2D average(Vector2D... vectors) {
-        Objects.requireNonNull(vectors);
-        Vector2D average = new Vector2D();
-        for(Vector2D v : vectors) average.add(v);
-        return average.divide(vectors.length);
-    }
-
-    /**
-     * Returns the dot protuct of the two vectors.
-     * 
-     * @param v The first vector
-     * @param w The second vector
-     * @return The dot product of the two vectors
-     */
-    public static double dot(Vector2D v, Vector2D w) {
-        Objects.requireNonNull(v);
-        Objects.requireNonNull(w);
-        return v.dot(w);
+    public static Vector2D angled(double angle) {
+        double radians = Math.toRadians(angle);
+        return new Vector2D(Math.cos(radians), Math.sin(radians));
     }
 
     /**
@@ -229,23 +216,9 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return The cross product of the two vectors
      */
     public static double cross(Vector2D v, Vector2D w) {
-        Objects.requireNonNull(v);
-        Objects.requireNonNull(w);
+        Arguments.checkNull(v, "v");
+        Arguments.checkNull(w, "w");
         return v.x() * w.y() - v.y() * w.x();
-    }
-
-    /**
-     * Returns a new vector representing the sum of the two given
-     * vectors.
-     * 
-     * @param w The first vector
-     * @param v The second Vector
-     * @return The sum of the vectors
-     */
-    public static Vector2D sum(Vector2D v, Vector2D w) {
-        Objects.requireNonNull(v);
-        Objects.requireNonNull(w);
-        return new Vector2D().add(v, w);
     }
 
     /**
@@ -257,8 +230,8 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return The angle between the vectors
      */
     public static double angleBetween(Vector2D v, Vector2D w) {
-        Objects.requireNonNull(v);
-        Objects.requireNonNull(w);
+        Arguments.checkNull(v, "v");
+        Arguments.checkNull(w, "w");
         if(v.isZero() || w.isZero()) return 0;
         double result = w.angle() - v.angle();
         result += result > -180 ? (result <= 180 ? 0 : -360) : 360;
@@ -274,9 +247,9 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return A new vector representing the reflection of {@code reflect} form {@code base}
      */
     public static Vector2D reflect(Vector2D wall, Vector2D vector){
-        Objects.requireNonNull(wall);
-        Objects.requireNonNull(vector);
-        return angledVector(wall.angle() + vector.angleTo(wall), vector.abs());
+        Arguments.checkNull(wall, "wall");
+        Arguments.checkNull(vector, "vector");
+        return angled(wall.angle() + vector.angleTo(wall), vector.abs());
     }
 
     /**
@@ -303,8 +276,8 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * onto is a zero Vector
      */
     public static Vector2D project(Vector2D vectorToProject, Vector2D onto){
-        Objects.requireNonNull(vectorToProject);
-        Objects.requireNonNull(onto);
+        Arguments.checkNull(vectorToProject, "vectorToProject");
+        Arguments.checkNull(onto, "onto");
         return onto.normed().scale(vectorToProject.dot(onto)).divide(onto.abs());
     }
 
@@ -327,9 +300,9 @@ public class Vector2D extends AbstractVector<Vector2D> {
      * @return The smallest angle between the two vectors, in degrees
      */
     public static double smallestAngle(Vector2D v, Vector2D w) {
-        Objects.requireNonNull(v);
-        Objects.requireNonNull(w);
+        Arguments.checkNull(v, "v");
+        Arguments.checkNull(w, "w");
         if(v.isZero() || w.isZero()) return 0;
-        return Math.toDegrees(Math.acos(dot(v, w) / (v.abs() * w.abs())));
+        return Math.toDegrees(Math.acos(Vector.dot(v, w) / (v.abs() * w.abs())));
     }
 }

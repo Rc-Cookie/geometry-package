@@ -121,16 +121,19 @@ public class Vector3D extends AbstractVector<Vector3D> {
         return new Vector3D(this);
     }
 
+    @Override
+    public Vector3D get3D() throws UnsupportedOperationException {
+        return this;
+    }
 
 
 
 
 
-
-    public double z() { return getDim(Z); }
+    public double z() { return get(Z); }
 
     public Vector3D setZ(double z) {
-        return setDim(Z, z);
+        return set(Z, z);
     }
 
     public Vector3D set(double x, double y, double z) {
@@ -234,15 +237,6 @@ public class Vector3D extends AbstractVector<Vector3D> {
         );
     }
 
-
-    public static Vector3D between(Vector3D from, Vector3D to) {
-        return to.subtracted(from);
-    }
-
-    public static double distance(Vector3D v, Vector3D w) {
-        return between(v, w).abs();
-    }
-
     
     public static Vector3D average(Vector3D... vectors) {
         if(vectors.length == 0) return null;
@@ -296,22 +290,22 @@ public class Vector3D extends AbstractVector<Vector3D> {
         return cross(v, w).abs();
     }
 
-    public static Vector3D shortestBetween(Ray3D ray, Vector3D point) {
+    public static Vector3D shortestBetween(Ray ray, Vector3D point) {
         double r = (
-            ray.direction().x() * (point.x() - ray.root().x()) + 
-            ray.direction().y() * (point.y() - ray.root().y()) + 
-            ray.direction().z() * (point.z() - ray.root().z())) /
-            dot(ray.direction(), ray.direction()
+            ray.direction.x() * (point.x() - ray.root.x()) +
+            ray.direction.y() * (point.y() - ray.root.y()) +
+            ray.direction.get3D().z() * (point.z() - ray.root.get3D().z())) /
+            Vector.dot(ray.direction, ray.direction
         );
-        return ray.root().added(ray.direction().scaled(r)).subtract(point);
+        return ray.root.added(ray.direction.scaled(r)).subtract(point).get3D();
     }
 
-    public static double distanceBetween(Ray3D line, Vector3D point) {
+    public static double distanceBetween(Ray line, Vector3D point) {
         return shortestBetween(line, point).abs();
     }
 
     public static Vector3D mirror(Vector3D mirroredVector, Vector3D mirror) {
-        return mirroredVector.added(shortestBetween(new Ray3D(mirror), mirroredVector).scale(2));
+        return mirroredVector.added(shortestBetween(new Ray(mirror), mirroredVector).scale(2));
     }
 
     public static Vector3D reflect(Vector3D base, Vector3D reflect){

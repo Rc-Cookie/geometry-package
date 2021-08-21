@@ -2,40 +2,72 @@ package com.github.rccookie.geometry;
 
 import com.github.rccookie.data.Saveable;
 
-public interface Edge extends Cloneable, Saveable {
+import java.util.Objects;
 
-    public Ray ray();
+public class Edge implements Border, Saveable {
 
-    public Vector root();
+    public final Vector start;
+    public final Vector end;
+    public final Vector connection;
 
-    public Vector edge();
-
-    public Vector get(double r);
-
-    public double length();
-
-    public default Edge2D get2D() {
-        return new Edge2D(ray().get2D());
+    public Edge(Vector start, Vector end) {
+        this.start = Vectors.immutableVector(start);
+        this.end = Vectors.immutableVector(end);
+        this.connection = Vectors.immutableVector(Vector.between(start, end));
     }
 
-    public default Edge3D get3D() {
-        return new Edge3D(ray().get3D());
+
+
+    @Override
+    public double[] rayIntersection(Ray ray) {
+        return Edge.intersection(this, ray);
+    }
+
+    @Override
+    public Vector get(double index) {
+        return start.added(connection.scaled(index));
+    }
+
+    @Override
+    public Vector getNormal(double index) {
+        return connection.get2D().rotated(-90);
+    }
+
+    @Override
+    public double length() {
+        return connection.abs();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Edge)) return false;
+        return Objects.equals(start, ((Edge)obj).start) && Objects.equals(end, ((Edge)obj).end);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Edge from " + start + " to " + end + " (" + connection.abs() + " units)}";
     }
 
 
 
     public static double[] intersection(Edge e, Ray r) {
-        double[] intersection = Ray.intersection(e.ray(), r);
+        double[] intersection = Ray.intersection(new Ray(e.start, e.connection), r);
         return (intersection == null || intersection[0] < 0 || intersection[0] > 1) ? null : intersection;
     }
 
     public static double[] intersection(Edge e, Edge f) {
-        double[] intersection = Ray.intersection(e.ray(), f.ray());
+        double[] intersection = Ray.intersection(new Ray(e.start, e.connection), new Ray(f.start, f.connection));
         return (intersection == null || intersection[0] < 0 || intersection[0] > 1 || intersection[1] < 0 || intersection[1] > 1) ? null : intersection;
     }
 
     public static Double intersection(Edge e, Vector p) {
-        double posA = (p.x() - e.root().x()) / e.edge().x();
-        return (posA >= 0 && posA <= 1 && (p.y() - e.root().y()) / e.edge().y() == posA) ? posA : null;
+        double posA = (p.x() - e.start.x()) / e.connection.x();
+        return (posA >= 0 && posA <= 1 && (p.y() - e.start.y()) / e.connection.y() == posA) ? posA : null;
     }
 }

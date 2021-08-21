@@ -24,7 +24,7 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
     }
 
     @Override
-    public ZeroDimVector add(Vector... vectors) {
+    public ZeroDimVector add(Vector vector) {
         return this;
     }
 
@@ -56,7 +56,7 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
     }
 
     @Override
-    public double getDim(int dimension) {
+    public double get(int dimension) {
         return 0;
     }
 
@@ -106,7 +106,7 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
     }
 
     @Override
-    public ZeroDimVector setDim(int dimension, double coordinate)
+    public ZeroDimVector set(int dimension, double coordinate)
             throws UnsupportedOperationException, DimensionOutOfBoundsException {
         throw new DimensionOutOfBoundsException(dimension, 0);
     }
@@ -137,7 +137,7 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
     }
 
     @Override
-    public ZeroDimVector subtract(Vector... vectors) {
+    public ZeroDimVector subtract(Vector vectors) {
         return this;
     }
 
@@ -163,7 +163,7 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
 
 
 
-    public static final ZeroDimVector get() {
+    public static ZeroDimVector get() {
         return INSTANCE;
     }
 }

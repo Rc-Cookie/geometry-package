@@ -6,7 +6,7 @@
 
   <groupId>com.github.rccookie</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.1.0.0</version>
+  <version>current</version>
 
   <name>geometry</name>
 
@@ -15,11 +15,23 @@
     <maven.compiler.release>11</maven.compiler.release>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>Github</id>
+      <url>https://www.github.com/Rc-Cookie</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>com.github.rccookie</groupId>
       <artifactId>data</artifactId>
       <version>1.1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.rccookie</groupId>
+      <artifactId>util</artifactId>
+      <version>1.5.4.1</version>
     </dependency>
   </dependencies>
 

@@ -1,17 +1,19 @@
 package com.github.rccookie.geometry;
 
 public final class Vectors {
-    private Vectors() { }
+    private Vectors() {
+        throw new UnsupportedOperationException();
+    }
 
-    public static final Vector immutableVector(Vector base) {
+    public static Vector immutableVector(Vector base) {
         return new ImmutableVector(base);
     }
 
-    public static final Vector2D immutableVector(Vector2D base) {
+    public static Vector2D immutableVector(Vector2D base) {
         return new ImmutableVector2D(base);
     }
 
-    public static final Vector3D immutableVector(Vector3D base) {
+    public static Vector3D immutableVector(Vector3D base) {
         return new ImmutableVector3D(base);
     }
 
@@ -28,12 +30,12 @@ public final class Vectors {
         }
 
         @Override
-        public double getDim(int dimension) {
-            return base.getDim(dimension);
+        public double get(int dimension) {
+            return base.get(dimension);
         }
 
         @Override
-        public Vector setDim(int dimension, double coordinate)
+        public Vector set(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -45,7 +47,7 @@ public final class Vectors {
 
         @Override
         public Vector clone() {
-            return new ImmutableVector(base);
+            return base.clone();
         }
 
         @Override
@@ -129,12 +131,17 @@ public final class Vectors {
         }
 
         @Override
-        public Vector add(Vector... vectors) {
+        public Vector add(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Vector subtract(Vector... vectors) {
+        public Vector subtract(Vector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Vector multiply(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
@@ -155,57 +162,78 @@ public final class Vectors {
 
         @Override
         public Vector scaled(double scalar) {
-            return new ImmutableVector(base.scaled(scalar));
+            return base.scaled(scalar);
         }
 
         @Override
         public Vector divided(double denominator) throws ArithmeticException {
-            return new ImmutableVector(base.divided(denominator));
+            return base.divided(denominator);
         }
 
         @Override
         public Vector inverted() {
-            return new ImmutableVector(base.inverted());
+            return base.inverted();
         }
 
         @Override
         public Vector normed() {
-            return new ImmutableVector(base.normed());
+            return base.normed();
         }
 
         @Override
-        public Vector added(Vector... vectors) {
-            return new ImmutableVector(base.added(vectors));
+        public Vector added(Vector vector) {
+            return base.added(vector);
         }
 
         @Override
-        public Vector subtracted(Vector... vectors) {
-            return new ImmutableVector(base.subtracted(vectors));
+        public Vector subtracted(Vector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public Vector multiplied(Vector vector) {
+            return base.multiplied(vector);
         }
 
         @Override
         public Vector floored() {
-            return new ImmutableVector(base.floored());
+            return base.floored();
         }
 
         @Override
         public Vector ceiled() {
-            return new ImmutableVector(base.ceiled());
+            return base.ceiled();
         }
 
         @Override
         public Vector rounded() {
-            return new ImmutableVector(base.rounded());
+            return base.rounded();
         }
 
         @Override
         public Vector2D get2D() throws UnsupportedOperationException {
-            return new ImmutableVector2D(base.get2D());
+            return base.get2D();
         }
 
         @Override
         public Vector3D get3D() throws UnsupportedOperationException {
-            return new ImmutableVector3D(base.get3D());
+            return base.get3D();
+        }
+
+        @Override
+        public String toString() {
+            return Vector.toString(this);
+        }
+
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+        @Override
+        public boolean equals(Object obj) {
+            return Vector.equals(base, obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return Vector.hashCode(base);
         }
     }
 
@@ -221,12 +249,12 @@ public final class Vectors {
         }
 
         @Override
-        public double getDim(int dimension) {
-            return base.getDim(dimension);
+        public double get(int dimension) {
+            return base.get(dimension);
         }
 
         @Override
-        public Vector2D setDim(int dimension, double coordinate)
+        public Vector2D set(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -238,7 +266,7 @@ public final class Vectors {
 
         @Override
         public Vector2D clone() {
-            return new ImmutableVector2D(base);
+            return base.clone();
         }
 
         @Override
@@ -317,12 +345,17 @@ public final class Vectors {
         }
 
         @Override
-        public Vector2D add(Vector... vectors) {
+        public Vector2D add(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Vector2D subtract(Vector... vectors) {
+        public Vector2D subtract(Vector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Vector2D multiply(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
@@ -343,57 +376,62 @@ public final class Vectors {
 
         @Override
         public Vector2D scaled(double scalar) {
-            return new ImmutableVector2D(base.scaled(scalar));
+            return base.scaled(scalar);
         }
 
         @Override
         public Vector2D divided(double denominator) throws ArithmeticException {
-            return new ImmutableVector2D(base.divided(denominator));
+            return base.divided(denominator);
         }
 
         @Override
         public Vector2D inverted() {
-            return new ImmutableVector2D(base.inverted());
+            return base.inverted();
         }
 
         @Override
         public Vector2D normed() {
-            return new ImmutableVector2D(base.normed());
+            return base.normed();
         }
 
         @Override
-        public Vector2D added(Vector... vectors) {
-            return new ImmutableVector2D(base.added(vectors));
+        public Vector added(Vector vector) {
+            return base.added(vector);
         }
 
         @Override
-        public Vector2D subtracted(Vector... vectors) {
-            return new ImmutableVector2D(base.subtracted(vectors));
+        public Vector subtracted(Vector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public Vector multiplied(Vector vector) {
+            return base.multiplied(vector);
         }
 
         @Override
         public Vector2D floored() {
-            return new ImmutableVector2D(base.floored());
+            return base.floored();
         }
 
         @Override
         public Vector2D ceiled() {
-            return new ImmutableVector2D(base.ceiled());
+            return base.ceiled();
         }
 
         @Override
         public Vector2D rounded() {
-            return new ImmutableVector2D(base.rounded());
+            return base.rounded();
         }
 
         @Override
         public Vector2D get2D() throws UnsupportedOperationException {
-            return new ImmutableVector2D(base.get2D());
+            return base.get2D();
         }
 
         @Override
         public Vector3D get3D() throws UnsupportedOperationException {
-            return new ImmutableVector3D(base.get3D());
+            return base.get3D();
         }
     }
 
@@ -409,12 +447,12 @@ public final class Vectors {
         }
 
         @Override
-        public double getDim(int dimension) {
-            return base.getDim(dimension);
+        public double get(int dimension) {
+            return base.get(dimension);
         }
 
         @Override
-        public Vector3D setDim(int dimension, double coordinate)
+        public Vector3D set(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -426,7 +464,7 @@ public final class Vectors {
 
         @Override
         public Vector3D clone() {
-            return new ImmutableVector3D(base);
+            return base.clone();
         }
 
         @Override
@@ -510,12 +548,17 @@ public final class Vectors {
         }
 
         @Override
-        public Vector3D add(Vector... vectors) {
+        public Vector3D add(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Vector3D subtract(Vector... vectors) {
+        public Vector3D subtract(Vector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Vector3D multiply(Vector vector) {
             throw new UnsupportedOperationException();
         }
 
@@ -536,57 +579,62 @@ public final class Vectors {
 
         @Override
         public Vector3D scaled(double scalar) {
-            return new ImmutableVector3D(base.scaled(scalar));
+            return base.scaled(scalar);
         }
 
         @Override
         public Vector3D divided(double denominator) throws ArithmeticException {
-            return new ImmutableVector3D(base.divided(denominator));
+            return base.divided(denominator);
         }
 
         @Override
         public Vector3D inverted() {
-            return new ImmutableVector3D(base.inverted());
+            return base.inverted();
         }
 
         @Override
         public Vector3D normed() {
-            return new ImmutableVector3D(base.normed());
+            return base.normed();
         }
 
         @Override
-        public Vector3D added(Vector... vectors) {
-            return new ImmutableVector3D(base.added(vectors));
+        public Vector added(Vector vector) {
+            return base.added(vector);
         }
 
         @Override
-        public Vector3D subtracted(Vector... vectors) {
-            return new ImmutableVector3D(base.subtracted(vectors));
+        public Vector subtracted(Vector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public Vector multiplied(Vector vector) {
+            return base.multiplied(vector);
         }
 
         @Override
         public Vector3D floored() {
-            return new ImmutableVector3D(base.floored());
+            return base.floored();
         }
 
         @Override
         public Vector3D ceiled() {
-            return new ImmutableVector3D(base.ceiled());
+            return base.ceiled();
         }
 
         @Override
         public Vector3D rounded() {
-            return new ImmutableVector3D(base.rounded());
+            return base.rounded();
         }
 
         @Override
-        public ImmutableVector2D get2D() throws UnsupportedOperationException {
-            return new ImmutableVector2D(base.get2D());
+        public Vector2D get2D() throws UnsupportedOperationException {
+            return base.get2D();
         }
 
         @Override
         public Vector3D get3D() throws UnsupportedOperationException {
-            return new ImmutableVector3D(base.get3D());
+            return base.get3D();
         }
     }
 }

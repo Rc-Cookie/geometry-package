@@ -1,7 +1,8 @@
 package com.github.rccookie.geometry;
 
+import com.github.rccookie.util.Arguments;
+
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Size implements Serializable {
 
@@ -18,7 +19,7 @@ public class Size implements Serializable {
     }
 
     public Size(double... sizes) {
-        Objects.requireNonNull(sizes);
+        Arguments.checkNull(sizes);
         this.sizes = new double[sizes.length];
         System.arraycopy(sizes, 0, this.sizes, 0, sizes.length);
     }

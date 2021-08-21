@@ -1,6 +1,6 @@
 package com.github.rccookie.geometry;
 
-import java.util.Objects;
+import com.github.rccookie.util.Arguments;
 
 public final class Geometry {
     private Geometry() {}
@@ -15,7 +15,7 @@ public final class Geometry {
      * @param floorDigits The digit index of the digit to start rounding at
      * @return The rounded value
      */
-    public static final double floor(double x, int floorDigits) {
+    public static double floor(double x, int floorDigits) {
         double factor = Math.pow(10, floorDigits);
         return Math.floor(x / factor) * factor;
     }
@@ -30,7 +30,7 @@ public final class Geometry {
      * @param ceilDigits The digit index of the digit to start rounding at
      * @return The rounded value
      */
-    public static final double ceil(double x, int ceilDigits) {
+    public static double ceil(double x, int ceilDigits) {
         double factor = Math.pow(10, ceilDigits);
         return Math.ceil(x / factor) * factor;
     }
@@ -45,14 +45,14 @@ public final class Geometry {
      * @param roundDigits The digit index of the digit to start rounding at
      * @return The rounded value
      */
-    public static final double round(double x, int roundDigits) {
+    public static double round(double x, int roundDigits) {
         double factor = Math.pow(10, roundDigits);
         return Math.round(x / factor) * factor;
     }
 
 
-    public static final long min(long... numbers) {
-        Objects.requireNonNull(numbers);
+    public static long min(long... numbers) {
+        Arguments.checkNull(numbers);
         if(numbers.length == 0) return 0;
         long min = numbers[0];
         for(int i=1; i<numbers.length; i++)
@@ -60,8 +60,8 @@ public final class Geometry {
         return min;
     }
 
-    public static final long max(long... numbers) {
-        Objects.requireNonNull(numbers);
+    public static long max(long... numbers) {
+        Arguments.checkNull(numbers);
         if(numbers.length == 0) return 0;
         long max = numbers[0];
         for(int i=1; i<numbers.length; i++)
