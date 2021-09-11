@@ -26,7 +26,7 @@ public class InfiniteVector implements Vector {
     }
 
     @Override
-    public Vector set(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException {
+    public Vector setDim(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException {
         if(dimension < 0) throw new DimensionOutOfBoundsException(dimension, Integer.MAX_VALUE);
         throw new UnsupportedOperationException();
     }
@@ -58,12 +58,12 @@ public class InfiniteVector implements Vector {
 
     @Override
     public Vector setX(double x) throws UnsupportedOperationException, DimensionOutOfBoundsException {
-        return set(X, x);
+        return setDim(X, x);
     }
 
     @Override
     public Vector setY(double y) throws UnsupportedOperationException, DimensionOutOfBoundsException {
-        return set(Y, y);
+        return setDim(Y, y);
     }
 
     @Override
@@ -71,6 +71,14 @@ public class InfiniteVector implements Vector {
         Arguments.checkNull(vector);
         if(vector.size() == 0) return this;
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Vector set(double... coordinates) {
+        Arguments.checkNull(coordinates);
+        final int size = size();
+        for(int i=0; i<size; i++) setDim(i, coordinates[i]);
+        return this;
     }
 
     @Override
@@ -227,6 +235,11 @@ public class InfiniteVector implements Vector {
     @Override
     public Vector3D get3D() throws UnsupportedOperationException {
         return Vector.of(value, value, value);
+    }
+
+    @Override
+    public IntVector getInt() {
+        return new InfiniteIntVector((int) Math.round(value + 0.5));
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")

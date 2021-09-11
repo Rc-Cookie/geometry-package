@@ -86,7 +86,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
      * @param coordinate The new coordinate in the specified dimension of this vector
      */
     @Override
-    public V set(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException {
+    public V setDim(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException {
         checkDim(dimension);
         coordinates[dimension] = coordinate;
         return getThis();
@@ -149,7 +149,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
      */
     @Override
     public V setX(double x) throws UnsupportedOperationException, DimensionOutOfBoundsException {
-        return set(X, x);
+        return setDim(X, x);
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
      */
     @Override
     public V setY(double y) throws UnsupportedOperationException, DimensionOutOfBoundsException {
-        return set(Y, y);
+        return setDim(Y, y);
     }
 
     /**
@@ -167,7 +167,15 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
     public V set(Vector vector) throws NullPointerException {
         Arguments.checkNull(vector);
         final int size = size();
-        for(int i=0; i<size; i++) set(i, vector.get(i));
+        for(int i=0; i<size; i++) setDim(i, vector.get(i));
+        return getThis();
+    }
+
+    @Override
+    public V set(double... coordinates) {
+        Arguments.checkNull(coordinates);
+        final int size = size();
+        for(int i=0; i<size; i++) setDim(i, coordinates[i]);
         return getThis();
     }
 
@@ -227,7 +235,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
     public V scale(double scalar) throws UnsupportedOperationException {
         if(scalar == 1) return getThis();
         final int size = size();
-        for(int i=0; i<size; i++) set(i, get(i) * scalar);
+        for(int i=0; i<size; i++) setDim(i, get(i) * scalar);
         return getThis();
     }
 
@@ -269,7 +277,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
         Arguments.checkNull(vector);
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, get(i) + vector.get(i));
+            setDim(i, get(i) + vector.get(i));
         return getThis();
     }
 
@@ -281,7 +289,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
         Arguments.checkNull(vector);
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, get(i) - vector.get(i));
+            setDim(i, get(i) - vector.get(i));
         return getThis();
     }
 
@@ -290,7 +298,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
         Arguments.checkNull(vector);
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, get(i) * vector.get(i));
+            setDim(i, get(i) * vector.get(i));
         return getThis();
     }
 
@@ -298,7 +306,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
     public V floor() throws UnsupportedOperationException {
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, Math.floor(get(i)));
+            setDim(i, Math.floor(get(i)));
         return getThis();
     }
 
@@ -306,7 +314,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
     public V ceil() throws UnsupportedOperationException {
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, Math.ceil(get(i)));
+            setDim(i, Math.ceil(get(i)));
         return getThis();
     }
 
@@ -314,7 +322,7 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
     public V round() throws UnsupportedOperationException {
         final int size = size();
         for(int i=0; i<size; i++)
-            set(i, Math.round(get(i)));
+            setDim(i, Math.round(get(i)));
         return getThis();
     }
 
@@ -448,9 +456,17 @@ public abstract class AbstractVector<V extends AbstractVector<? extends V>> impl
         return new Vector3D(get(X), get(Y), get(Z));
     }
 
+    @Override
+    public IntVector getInt() {
+        int[] intCoordinates = new int[coordinates.length];
+        for (int i = 0; i < coordinates.length; i++)
+            intCoordinates[i] = (int) Math.round(coordinates[i]);
+        return IntVector.of(intCoordinates);
+    }
 
 
-    
+
+
     // ------------------------------------------------------------------------------------
     // Saving methods
     // ------------------------------------------------------------------------------------

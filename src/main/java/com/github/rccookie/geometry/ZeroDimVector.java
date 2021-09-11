@@ -1,5 +1,7 @@
 package com.github.rccookie.geometry;
 
+import com.github.rccookie.util.Arguments;
+
 public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
 
     private static final long serialVersionUID = -7810951969992884041L;
@@ -106,7 +108,15 @@ public class ZeroDimVector extends AbstractVector<ZeroDimVector> {
     }
 
     @Override
-    public ZeroDimVector set(int dimension, double coordinate)
+    public ZeroDimVector set(double... coordinates) {
+        Arguments.checkNull(coordinates);
+        if(coordinates.length != 0)
+            throw new DimensionOutOfBoundsException(1, 0);
+        return this;
+    }
+
+    @Override
+    public ZeroDimVector setDim(int dimension, double coordinate)
             throws UnsupportedOperationException, DimensionOutOfBoundsException {
         throw new DimensionOutOfBoundsException(dimension, 0);
     }

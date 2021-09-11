@@ -98,10 +98,10 @@ public class Vector2D extends AbstractVector<Vector2D> {
         return this;
     }
 
-
-
-
-
+    @Override
+    public IntVector2D getInt() {
+        return new IntVector2D((int) Math.round(x() + 0.5), (int) Math.round(y() + 0.5));
+    }
 
     /**
      * Sets this vectors coordinates to the specified ones.

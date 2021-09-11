@@ -126,14 +126,15 @@ public class Vector3D extends AbstractVector<Vector3D> {
         return this;
     }
 
-
-
-
+    @Override
+    public IntVector getInt() {
+        return new IntVector3D((int) Math.round(x() + 0.5), (int) Math.round(y() + 0.5), (int) Math.round(z() + 0.5));
+    }
 
     public double z() { return get(Z); }
 
     public Vector3D setZ(double z) {
-        return set(Z, z);
+        return setDim(Z, z);
     }
 
     public Vector3D set(double x, double y, double z) {

@@ -6,6 +6,7 @@ import com.github.rccookie.util.Console;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -138,7 +139,7 @@ public interface Vector extends Cloneable, Saveable {
      * @return The coordinate in the specified dimension
      * @see #x()
      * @see #y()
-     * @see #set(int, double)
+     * @see #setDim(int, double)
      */
     double get(int dimension);
 
@@ -153,7 +154,7 @@ public interface Vector extends Cloneable, Saveable {
      * @see #setY(double)
      * @see #get(int)
      */
-    Vector set(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException;
+    Vector setDim(int dimension, double coordinate) throws UnsupportedOperationException, DimensionOutOfBoundsException;
 
     /**
      * Returns the number of dimensions stored in this vector.
@@ -261,7 +262,7 @@ public interface Vector extends Cloneable, Saveable {
      * @return This vector
      * @throws UnsupportedOperationException If this vector is immutable
      * @throws DimensionOutOfBoundsException If this vector does not have any dimensions
-     * @see #set(int, double)
+     * @see #setDim(int, double)
      */
     Vector setX(double x) throws UnsupportedOperationException, DimensionOutOfBoundsException;
 
@@ -272,7 +273,7 @@ public interface Vector extends Cloneable, Saveable {
      * @return This vector
      * @throws UnsupportedOperationException If this vector is immutable
      * @throws DimensionOutOfBoundsException If this vector does not have 2 dimensions
-     * @see #set(int, double)
+     * @see #setDim(int, double)
      */
     Vector setY(double y) throws UnsupportedOperationException, DimensionOutOfBoundsException;
 
@@ -286,6 +287,15 @@ public interface Vector extends Cloneable, Saveable {
      * @throws NullPointerException If the specified vector is {@code null}
      */
     Vector set(Vector vector) throws NullPointerException, UnsupportedOperationException;
+
+    /**
+     * Set's the coordinates of this vector to the given ones. If the array has more elements
+     * than the vector has dimensions, a {@link DimensionOutOfBoundsException} will be thrown.
+     *
+     * @param coordinates The coordinates to assign
+     * @return This vector
+     */
+    Vector set(double... coordinates);
 
 
 
@@ -596,7 +606,7 @@ public interface Vector extends Cloneable, Saveable {
      * @throws UnsupportedOperationException If this vector does not support 2D conversion
      * @see Vector2D
      */
-    Vector2D get2D() throws UnsupportedOperationException;
+    Vector2D get2D();
 
     /**
      * Returns a Vector3D representing this vector as good as possible.
@@ -605,34 +615,9 @@ public interface Vector extends Cloneable, Saveable {
      * @throws UnsupportedOperationException If this vector does not support 3D conversion
      * @see Vector3D
      */
-    Vector3D get3D() throws UnsupportedOperationException;
+    Vector3D get3D();
 
-
-
-    
-    // ------------------------------------------------------------------------------------
-    // Internals
-    // ------------------------------------------------------------------------------------
-
-
-
-
-    /**
-     * An exception indicating that a dimension of a vector was requested that was either negative
-     * or out of range for the vectors dimensions.
-     */
-    class DimensionOutOfBoundsException extends IndexOutOfBoundsException {
-        private static final long serialVersionUID = -7930115924262565512L;
-        /**
-         * Creates a new DimensionOutOfBoundsException.
-         * 
-         * @param dimension The dimension that was requested
-         * @param size The actual size of the vector
-         */
-        DimensionOutOfBoundsException(int dimension, int size) {
-            super("The dimension " + dimension + " is not available for a vector with " + size + " dimensions");
-        }
-    }
+    IntVector getInt();
 
 
 
@@ -781,6 +766,11 @@ public interface Vector extends Cloneable, Saveable {
 
 
 
+    static Vector of(IntVector intVector) {
+        Arguments.checkNull(intVector);
+        return of(intVector.getVector());
+    }
+
     /**
      * Creates a vector with the specified coordinates and a size defined by the number of
      * coordinates specified.
@@ -912,7 +902,7 @@ public interface Vector extends Cloneable, Saveable {
      * @return A hash code value for the vector
      */
     static int hashCode(Vector vector) {
-        return Objects.hashCode(Arguments.checkNull(vector).toArray());
+        return Arrays.hashCode(vector.toArray());
     }
 
     static void main(String[] args) {

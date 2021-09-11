@@ -6,7 +6,7 @@
 
   <groupId>com.github.rccookie</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.4.0.6</version>
+  <version>1.5.1.0</version>
 
   <name>geometry</name>
 
@@ -17,8 +17,8 @@
 
   <repositories>
     <repository>
-      <id>Github</id>
-      <url>https://www.github.com/Rc-Cookie</url>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/rc-cookie/*</url>
     </repository>
   </repositories>
 
@@ -27,11 +27,30 @@
       <groupId>com.github.rccookie</groupId>
       <artifactId>data</artifactId>
       <version>1.1.0.0</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.rccookie</groupId>
       <artifactId>util</artifactId>
-      <version>1.5.4.1</version>
+      <version>1.5.5.0</version>
+    </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>RELEASE</version>
+          <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.8.0-RC1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

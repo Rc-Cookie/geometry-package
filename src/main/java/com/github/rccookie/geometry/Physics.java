@@ -161,7 +161,7 @@ public final class Physics {
          * @param time
          * @return The distance traveled
          */
-        public static final double distTraveled(double velocity, double time) {
+        public static double distTraveled(double velocity, double time) {
             return velocity * time;
         }
 
@@ -171,7 +171,7 @@ public final class Physics {
          * @param time
          * @return The distance traveled
          */
-        public static final Vector3D distTraveled(Vector3D velocity, double time) {
+        public static Vector3D distTraveled(Vector3D velocity, double time) {
             return velocity.scaled(time);
         }
 
@@ -181,7 +181,7 @@ public final class Physics {
          * @param time
          * @return The average velocity
          */
-        public static final double velocity(double distance, double time) {
+        public static double velocity(double distance, double time) {
             return distance / time;
         }
 
@@ -191,7 +191,7 @@ public final class Physics {
          * @param time
          * @return The average velocity
          */
-        public static final Vector3D velocity(Vector3D distance, double time) {
+        public static Vector3D velocity(Vector3D distance, double time) {
             return distance.divided(time);
         }
 
@@ -203,7 +203,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The distance traveled
          */
-        public static final double distTraveled(double acceleration, double time, double velocity0) {
+        public static double distTraveled(double acceleration, double time, double velocity0) {
             return (acceleration / 2) * time * time + distTraveled(velocity0, time);
         }
 
@@ -214,7 +214,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The distance traveled
          */
-        public static final Vector3D distTraveled(Vector3D acceleration, double time, Vector3D velocity0) {
+        public static Vector3D distTraveled(Vector3D acceleration, double time, Vector3D velocity0) {
             return acceleration.scaled(0.5 * time * time).add(distTraveled(velocity0, time));
         }
 
@@ -225,7 +225,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final double velocity(double acceleration, double time, double velocity0) {
+        public static double velocity(double acceleration, double time, double velocity0) {
             return acceleration * time + velocity0;
         }
 
@@ -236,7 +236,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final Vector3D velocity(Vector3D acceleration, double time, Vector3D velocity0) {
+        public static Vector3D velocity(Vector3D acceleration, double time, Vector3D velocity0) {
             return acceleration.scaled(time).add(velocity0);
         }
 
@@ -248,7 +248,7 @@ public final class Physics {
          * @param radius
          * @return The angular velocity
          */
-        public static final double angularVel(double velocity, double radius) {
+        public static double angularVel(double velocity, double radius) {
             return velocity / (2 * PI * radius);
         }
 
@@ -258,7 +258,7 @@ public final class Physics {
          * @param radius
          * @return The velocity
          */
-        public static final double velOnCircle(double angularVelocity, double radius) {
+        public static double velOnCircle(double angularVelocity, double radius) {
             return angularVelocity * radius;
         }
 
@@ -267,7 +267,7 @@ public final class Physics {
          * @param angularVelocity
          * @return The orbital term
          */
-        public static final double orbitalTerm(double angularVelocity) {
+        public static double orbitalTerm(double angularVelocity) {
             return 2 * PI / angularVelocity;
         }
 
@@ -276,7 +276,7 @@ public final class Physics {
          * @param orbitalTerm
          * @return The frequency
          */
-        public static final double frequency(double orbitalTerm) {
+        public static double frequency(double orbitalTerm) {
             return 1 / orbitalTerm;
         }
 
@@ -289,7 +289,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final double fallVel(double time, double velocity0) {
+        public static double fallVel(double time, double velocity0) {
             return velocity(-G_EARTH, time, velocity0);
         }
 
@@ -299,7 +299,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final Vector3D fallVel(double time, Vector3D velocity0) {
+        public static Vector3D fallVel(double time, Vector3D velocity0) {
             return velocity(G_EARTH_VEC, time, velocity0);
         }
 
@@ -309,7 +309,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final double fallDist(double time, double velocity0) {
+        public static double fallDist(double time, double velocity0) {
             return distTraveled(-G_EARTH, time, velocity0);
         }
 
@@ -319,7 +319,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final Vector3D fallDist(double time, Vector3D velocity0) {
+        public static Vector3D fallDist(double time, Vector3D velocity0) {
             return distTraveled(G_EARTH_VEC, time, velocity0);
         }
 
@@ -328,7 +328,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The time the objects rises
          */
-        public static final double riseTime(double velocity0) {
+        public static double riseTime(double velocity0) {
             return riseTime(G_EARTH, velocity0);
         }
 
@@ -337,7 +337,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The time the objects rises
          */
-        public static final Vector3D riseTime(Vector3D velocity0) {
+        public static Vector3D riseTime(Vector3D velocity0) {
             return riseTime(G_EARTH_VEC.inverted(), velocity0);
         }
 
@@ -348,7 +348,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The time the object rises
          */
-        public static final double riseTime(double decceleration, double velocity0) {
+        public static double riseTime(double decceleration, double velocity0) {
             return velocity0 / decceleration;
         }
 
@@ -359,7 +359,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The time the object rises
          */
-        public static final Vector3D riseTime(Vector3D decceleration, Vector3D velocity0) {
+        public static Vector3D riseTime(Vector3D decceleration, Vector3D velocity0) {
             return new Vector3D(velocity0.x() / decceleration.x(), velocity0.y() / decceleration.y(), velocity0.z() / decceleration.z());
         }
 
@@ -368,7 +368,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The rise height
          */
-        public static final double riseHeight(double velocity0) {
+        public static double riseHeight(double velocity0) {
             return riseHeight(G_EARTH, velocity0);
         }
 
@@ -377,7 +377,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The rise height
          */
-        public static final Vector3D riseHeight(Vector3D velocity0) {
+        public static Vector3D riseHeight(Vector3D velocity0) {
             return riseHeight(G_EARTH_VEC.inverted(), velocity0);
         }
 
@@ -388,7 +388,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The rise height
          */
-        public static final double riseHeight(double decceleration, double velocity0) {
+        public static double riseHeight(double decceleration, double velocity0) {
             return velocity0 * velocity0 / (2 * decceleration);
         }
 
@@ -399,7 +399,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The rise height
          */
-        public static final Vector3D riseHeight(Vector3D decceleration, Vector3D velocity0) {
+        public static Vector3D riseHeight(Vector3D decceleration, Vector3D velocity0) {
             return new Vector3D(
                 velocity0.x() * velocity0.x() / (2 * decceleration.x()),
                 velocity0.y() * velocity0.y() / (2 * decceleration.y()),
@@ -415,7 +415,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final Vector3D throwVel(double time, Vector3D velocity0) {
+        public static Vector3D throwVel(double time, Vector3D velocity0) {
             return throwVel(-G_EARTH, time, velocity0);
         }
 
@@ -428,7 +428,7 @@ public final class Physics {
          * @param velocity0 The initial velocity
          * @return The final velocity
          */
-        public static final Vector3D throwVel(double acceleration, double time, Vector3D velocity0) {
+        public static Vector3D throwVel(double acceleration, double time, Vector3D velocity0) {
             return new Vector3D(velocity0.x(), velocity0.y(), velocity(acceleration, time, velocity0.z()));
         }
 
@@ -439,7 +439,7 @@ public final class Physics {
          * @param velocity0 The initial veloctiy
          * @return The location
          */
-        public static final Vector3D throwLoc(double time, Vector3D velocity0) {
+        public static Vector3D throwLoc(double time, Vector3D velocity0) {
             return throwLoc(-G_EARTH, time, velocity0);
         }
 
@@ -452,7 +452,7 @@ public final class Physics {
          * @param velocity0 The initial veloctiy
          * @return The location
          */
-        public static final Vector3D throwLoc(double acceleration, double time, Vector3D velocity0) {
+        public static Vector3D throwLoc(double acceleration, double time, Vector3D velocity0) {
             return new Vector3D(distTraveled(velocity0.x(), time), distTraveled(velocity0.y(), time), distTraveled(acceleration, time, velocity0.z()));
         }
 
@@ -466,7 +466,7 @@ public final class Physics {
          * @param acceleration
          * @return The force
          */
-        public static final Vector3D force(double mass, Vector3D acceleration) {
+        public static Vector3D force(double mass, Vector3D acceleration) {
             return acceleration.scaled(mass);
         }
 
@@ -476,7 +476,7 @@ public final class Physics {
          * @param acceleration
          * @return The force
          */
-        public static final double force(double mass, double acceleration) {
+        public static double force(double mass, double acceleration) {
             return mass * acceleration;
         }
 
@@ -489,7 +489,7 @@ public final class Physics {
          * @param mass
          * @return The weight
          */
-        public static final double weight(double mass) {
+        public static double weight(double mass) {
             return G_EARTH * mass;
         }
 
@@ -499,7 +499,7 @@ public final class Physics {
          * @param mass
          * @return The weight
          */
-        public static final double weight(double acceleration, double mass) {
+        public static double weight(double acceleration, double mass) {
             return G_EARTH * mass;
         }
 
@@ -523,7 +523,7 @@ public final class Physics {
          * @param velocity
          * @return The lorenz factor
          */
-        public static final double lorenzFactor(double velocity) {
+        public static double lorenzFactor(double velocity) {
             return 1 / Math.sqrt(1 - velocity * velocity / (C * C));
         }
 
@@ -532,7 +532,7 @@ public final class Physics {
          * @param velocity
          * @return The lorenz factor
          */
-        public static final double lorenzFactor(Vector3D velocity) {
+        public static double lorenzFactor(Vector3D velocity) {
             return lorenzFactor(velocity.abs());
         }
 
@@ -542,7 +542,7 @@ public final class Physics {
          * @param time The time in the first inertial system
          * @return The time in the second inertial system
          */
-        public static final double timeDilated(double velocity, double time) {
+        public static double timeDilated(double velocity, double time) {
             return lorenzFactor(velocity) * time;
         }
 
@@ -552,7 +552,7 @@ public final class Physics {
          * @param time The time in the first inertial system
          * @return The time in the second inertial system
          */
-        public static final double timeDilated(Vector3D velocity, double time) {
+        public static double timeDilated(Vector3D velocity, double time) {
             return lorenzFactor(velocity) * time;
         }
 
@@ -562,7 +562,7 @@ public final class Physics {
          * @param length The proper length
          * @return The contracted length
          */
-        public static final double lengthContracted(double velocity, double length) {
+        public static double lengthContracted(double velocity, double length) {
             return length / lorenzFactor(velocity);
         }
 
@@ -572,7 +572,7 @@ public final class Physics {
          * @param length The proper length
          * @return The contracted length
          */
-        public static final double lengthContracted(Vector3D velocity, double length) {
+        public static double lengthContracted(Vector3D velocity, double length) {
             return length / lorenzFactor(velocity);
         }
 
@@ -582,7 +582,7 @@ public final class Physics {
          * @param mass The resting (proper) mass
          * @return The mass while moving
          */
-        public static final double mass(double velocity, double mass) {
+        public static double mass(double velocity, double mass) {
             return lorenzFactor(velocity) * mass;
         }
 
@@ -592,7 +592,7 @@ public final class Physics {
          * @param mass The resting (proper) mass
          * @return The mass while moving
          */
-        public static final double mass(Vector3D velocity, double mass) {
+        public static double mass(Vector3D velocity, double mass) {
             return lorenzFactor(velocity) * mass;
         }
 
@@ -602,7 +602,7 @@ public final class Physics {
          * @param mass The resting (proper) mass
          * @return The kinetic energie of the mass
          */
-        public static final double kineticEnergy(double velocity, double mass) {
+        public static double kineticEnergy(double velocity, double mass) {
             return (lorenzFactor(velocity) - 1) * mass * C * C;
         }
 
@@ -612,7 +612,7 @@ public final class Physics {
          * @param mass The resting (proper) mass
          * @return The kinetic energie of the mass
          */
-        public static final double kineticEnergy(Vector3D velocity, double mass) {
+        public static double kineticEnergy(Vector3D velocity, double mass) {
             return (lorenzFactor(velocity) - 1) * mass * C * C;
         }
 
@@ -631,7 +631,7 @@ public final class Physics {
          * @param mass
          * @return The schwarzschild-radius
          */
-        public static final double schwarzschildRadius(double mass) {
+        public static double schwarzschildRadius(double mass) {
             return 2 * G * mass / (C * C);
         }
 
@@ -640,7 +640,7 @@ public final class Physics {
          * @param mass
          * @return The temperature
          */
-        public static final double temperatur(double mass) {
+        public static double temperatur(double mass) {
             return H_RED * C * C * C / (8 * PI * K * G * mass);
         }
 

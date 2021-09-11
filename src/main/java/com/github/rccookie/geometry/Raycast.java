@@ -1,6 +1,8 @@
 package com.github.rccookie.geometry;
 
 import com.github.rccookie.util.Arguments;
+import com.github.rccookie.util.Console;
+import com.github.rccookie.util.Stopwatch;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -143,5 +145,25 @@ public final class Raycast {
         public static Raycast2D emptyResult(Ray ray, double length) {
             return new Raycast2D(Double.NaN, Double.NaN, null, ray, length);
         }
+    }
+
+    public static void main(String[] args) {
+        Console.Config.includeLineNumber = true;
+        Console.Config.manualConsoleWidth = 243;
+
+        Ray r1 = new Ray(Vector.ZERO, Vector.ONE);
+        Ray r2 = new Ray(Vector.of(1, -1), Vector.UNIT_Y);
+        Edge e = new Edge(Vector.UNIT_X, Vector.UNIT_Y);
+        Circle c = new Circle(Vector.of(2, 2), Math.sqrt(2), 0, false);
+        Edge rt1 = new Edge(Vector.of(-2, -1), Vector.of(-2, 1)), rt2 = new Edge(Vector.of(-2, 1), Vector.of(2, 1));
+        Edge rt3 = new Edge(Vector.of(2, 1), Vector.of(2, -1)), rt4 = new Edge(Vector.of(2, -1), Vector.of(-2, -1));
+        Edge rtr1 = new Edge(Vector.of(1, -2), Vector.of(-1, -2)), rtr2 = new Edge(Vector.of(-1, -2), Vector.of(-1, 2));
+        Edge rtr3 = new Edge(Vector.of(-1, 2), Vector.of(1, 2)), rtr4 = new Edge(Vector.of(1, 2), Vector.of(1, -2));
+
+        Stopwatch watch = new Stopwatch().start();
+        for(int i=0; i<10000000; i++) {
+            com.github.rccookie.geometry.Raycast.raycast2D(new com.github.rccookie.geometry.Ray(Vector.of(1.1, 2.3), Vector.of(-3.5, -4.7)), 100, e, c, rt1, rt2, rt3, rt4, rtr1, rtr2, rtr3, rtr4, r2);
+        }
+        Console.map("Time", watch.stop().getPassedNanos());
     }
 }

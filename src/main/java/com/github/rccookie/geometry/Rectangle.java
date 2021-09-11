@@ -40,7 +40,6 @@ public class Rectangle {
 
         double angleSum = 0;
         for(int i=0; i<c.length; i++) angleSum += Vector2D.smallestAngle(c[i], c[(i+1)%c.length]);
-        if(angleSum < 360) return null;
 
         return null;
     }

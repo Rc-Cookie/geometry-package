@@ -1,5 +1,8 @@
 package com.github.rccookie.geometry;
 
+import com.github.rccookie.util.Arguments;
+import com.github.rccookie.util.Console;
+
 public final class Vectors {
     private Vectors() {
         throw new UnsupportedOperationException();
@@ -15,6 +18,18 @@ public final class Vectors {
 
     public static Vector3D immutableVector(Vector3D base) {
         return new ImmutableVector3D(base);
+    }
+
+    public static IntVector immutableVector(IntVector base) {
+        return new ImmutableIntVector(base);
+    }
+
+    public static IntVector2D immutableVector(IntVector2D base) {
+        return new ImmutableIntVector2D(base);
+    }
+
+    public static IntVector3D immutableVector(IntVector3D base) {
+        return new ImmutableIntVector3D(base);
     }
 
 
@@ -35,7 +50,7 @@ public final class Vectors {
         }
 
         @Override
-        public Vector set(int dimension, double coordinate)
+        public Vector setDim(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -77,6 +92,11 @@ public final class Vectors {
 
         @Override
         public Vector set(Vector vector) throws NullPointerException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Vector set(double... coordinates) {
             throw new UnsupportedOperationException();
         }
 
@@ -221,6 +241,11 @@ public final class Vectors {
         }
 
         @Override
+        public IntVector getInt() {
+            return base.getInt();
+        }
+
+        @Override
         public String toString() {
             return Vector.toString(this);
         }
@@ -254,7 +279,7 @@ public final class Vectors {
         }
 
         @Override
-        public Vector2D set(int dimension, double coordinate)
+        public Vector2D setDim(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -452,7 +477,7 @@ public final class Vectors {
         }
 
         @Override
-        public Vector3D set(int dimension, double coordinate)
+        public Vector3D setDim(int dimension, double coordinate)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -636,5 +661,492 @@ public final class Vectors {
         public Vector3D get3D() throws UnsupportedOperationException {
             return base.get3D();
         }
+    }
+
+
+    private static class ImmutableIntVector implements IntVector {
+
+        private static final long serialVersionUID = -3209379792678205620L;
+
+        private final IntVector base;
+
+        public ImmutableIntVector(IntVector base) {
+            this.base = base;
+        }
+
+        @Override
+        public int get(int dimension) {
+            return base.get(dimension);
+        }
+
+        @Override
+        public IntVector setDim(int dimension, int coordinate)
+                throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int size() {
+            return base.size();
+        }
+
+        @Override
+        public IntVector clone() {
+            return base.clone();
+        }
+
+        @Override
+        public int x() {
+            return base.x();
+        }
+
+        @Override
+        public int y() {
+            return base.y();
+        }
+
+        @Override
+        public int[] toArray() {
+            return base.toArray();
+        }
+
+        @Override
+        public IntVector setX(int x) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector setY(int y) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector set(IntVector vector) throws NullPointerException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector set(int... coordinates) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int dot(IntVector vector) throws NullPointerException {
+            return base.dot(vector);
+        }
+
+        @Override
+        public boolean isZero() {
+            return base.isZero();
+        }
+
+        @Override
+        public IntVector scale(int scalar) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector divide(int denominator) throws ArithmeticException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector invert() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector setZero() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector add(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector subtract(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector multiply(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector scaled(int scalar) {
+            return base.scaled(scalar);
+        }
+
+        @Override
+        public IntVector divided(int denominator) throws ArithmeticException {
+            return base.divided(denominator);
+        }
+
+        @Override
+        public IntVector inverted() {
+            return base.inverted();
+        }
+
+        @Override
+        public IntVector added(IntVector vector) {
+            return base.added(vector);
+        }
+
+        @Override
+        public IntVector subtracted(IntVector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public IntVector multiplied(IntVector vector) {
+            return base.multiplied(vector);
+        }
+
+        @Override
+        public IntVector2D get2D() throws UnsupportedOperationException {
+            return base.get2D();
+        }
+
+        @Override
+        public IntVector3D get3D() throws UnsupportedOperationException {
+            return base.get3D();
+        }
+
+        @Override
+        public Vector getVector() {
+            return base.getVector();
+        }
+
+        @Override
+        public String toString() {
+            return IntVector.toString(this);
+        }
+
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+        @Override
+        public boolean equals(Object obj) {
+            return IntVector.equals(base, obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return IntVector.hashCode(base);
+        }
+    }
+
+
+    private static class ImmutableIntVector2D extends IntVector2D {
+
+        private static final long serialVersionUID = -570640519112991578L;
+
+        private final IntVector2D base;
+
+        public ImmutableIntVector2D(IntVector2D base) {
+            this.base = base;
+        }
+
+        @Override
+        public int get(int dimension) {
+            return base.get(dimension);
+        }
+
+        @Override
+        public IntVector2D setDim(int dimension, int coordinate)
+                throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int size() {
+            return base.size();
+        }
+
+        @Override
+        public IntVector2D clone() {
+            return base.clone();
+        }
+
+        @Override
+        public int x() {
+            return base.x();
+        }
+
+        @Override
+        public int y() {
+            return base.y();
+        }
+
+        @Override
+        public int[] toArray() {
+            return base.toArray();
+        }
+
+        @Override
+        public IntVector2D setX(int x) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D setY(int y) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int dot(IntVector vector) throws NullPointerException {
+            return base.dot(vector);
+        }
+
+        @Override
+        public boolean isZero() {
+            return base.isZero();
+        }
+
+        @Override
+        public IntVector2D scale(int scalar) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D divide(int denominator) throws ArithmeticException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D invert() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D setZero() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D add(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D subtract(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D multiply(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector2D scaled(int scalar) {
+            return base.scaled(scalar);
+        }
+
+        @Override
+        public IntVector2D divided(int denominator) throws ArithmeticException {
+            return base.divided(denominator);
+        }
+
+        @Override
+        public IntVector2D inverted() {
+            return base.inverted();
+        }
+
+        @Override
+        public IntVector added(IntVector vector) {
+            return base.added(vector);
+        }
+
+        @Override
+        public IntVector subtracted(IntVector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public IntVector multiplied(IntVector vector) {
+            return base.multiplied(vector);
+        }
+
+        @Override
+        public IntVector2D get2D() throws UnsupportedOperationException {
+            return base.get2D();
+        }
+
+        @Override
+        public IntVector3D get3D() throws UnsupportedOperationException {
+            return base.get3D();
+        }
+
+        @Override
+        public Vector2D getVector() {
+            return base.getVector();
+        }
+    }
+
+
+    private static class ImmutableIntVector3D extends IntVector3D {
+
+        private static final long serialVersionUID = -570640519112991578L;
+
+        private final IntVector3D base;
+
+        public ImmutableIntVector3D(IntVector3D base) {
+            this.base = base;
+        }
+
+        @Override
+        public int get(int dimension) {
+            return base.get(dimension);
+        }
+
+        @Override
+        public IntVector3D setDim(int dimension, int coordinate)
+                throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int size() {
+            return base.size();
+        }
+
+        @Override
+        public IntVector3D clone() {
+            return base.clone();
+        }
+
+        @Override
+        public int x() {
+            return base.x();
+        }
+
+        @Override
+        public int y() {
+            return base.y();
+        }
+
+        @Override
+        public int[] toArray() {
+            return base.toArray();
+        }
+
+        @Override
+        public IntVector3D setX(int x) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D setY(int y) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D set(IntVector vector) throws NullPointerException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int dot(IntVector vector) throws NullPointerException {
+            return base.dot(vector);
+        }
+
+        @Override
+        public boolean isZero() {
+            return base.isZero();
+        }
+
+        @Override
+        public IntVector3D scale(int scalar) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D divide(int denominator) throws ArithmeticException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D invert() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D setZero() throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D add(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D subtract(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D multiply(IntVector vector) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public IntVector3D scaled(int scalar) {
+            return base.scaled(scalar);
+        }
+
+        @Override
+        public IntVector3D divided(int denominator) throws ArithmeticException {
+            return base.divided(denominator);
+        }
+
+        @Override
+        public IntVector3D inverted() {
+            return base.inverted();
+        }
+
+        @Override
+        public IntVector added(IntVector vector) {
+            return base.added(vector);
+        }
+
+        @Override
+        public IntVector subtracted(IntVector vector) {
+            return base.subtracted(vector);
+        }
+
+        @Override
+        public IntVector multiplied(IntVector vector) {
+            return base.multiplied(vector);
+        }
+
+        @Override
+        public IntVector2D get2D() throws UnsupportedOperationException {
+            return base.get2D();
+        }
+
+        @Override
+        public IntVector3D get3D() throws UnsupportedOperationException {
+            return base.get3D();
+        }
+
+        @Override
+        public Vector3D getVector() {
+            return base.getVector();
+        }
+    }
+
+
+    public static void main(String[] args) {
+        IntVector x = IntVector.of(1, 2);
+        Console.info(x);
+        Console.info(x.added(IntVector.of(2, 3)));
+        Console.info(x);
+        Console.info(x.scale(2));
+        Console.info(x.divide(2));
+        Console.info(x.setZero());
+        Console.info(IntVector.of(Math.round(-1.5f), Math.round(-2.4f)));
     }
 }

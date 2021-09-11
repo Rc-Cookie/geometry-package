@@ -57,4 +57,9 @@ public class Vector1D extends AbstractVector<Vector1D> {
     public double sqrAbs() {
         return x() * x();
     }
+
+    @Override
+    public IntVector1D getInt() {
+        return new IntVector1D((int) Math.round(x() + 0.5));
+    }
 }
