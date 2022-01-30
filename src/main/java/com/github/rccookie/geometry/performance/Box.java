@@ -1,6 +1,9 @@
 package com.github.rccookie.geometry.performance;
 
-public abstract class Box<V extends Vec<V>> implements Collider<V> {
+import com.github.rccookie.json.JsonObject;
+import com.github.rccookie.json.JsonSerializable;
+
+public abstract class Box<V extends Vec<V,?>> implements Collider<V>, JsonSerializable {
 
     public final V c;
     public final V s;
@@ -12,5 +15,10 @@ public abstract class Box<V extends Vec<V>> implements Collider<V> {
         this.s = s;
         this.i = i;
         this.ds = ds;
+    }
+
+    @Override
+    public Object toJson() {
+        return new JsonObject("c", c, "s", s, "i", i, "ds", ds);
     }
 }

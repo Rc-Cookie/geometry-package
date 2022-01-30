@@ -1,17 +1,25 @@
 package com.github.rccookie.geometry.performance;
 
-public abstract class Ray<V extends Vec<V>> implements Collider<V> {
+import com.github.rccookie.json.JsonObject;
+import com.github.rccookie.json.JsonSerializable;
+
+public abstract class Ray<V extends Vec<V,?>> implements Collider<V>, JsonSerializable {
 
     public final V o;
     public final V d;
-    public boolean ds;
-    public boolean i;
+    public final boolean ds;
+    public final boolean i;
 
     public Ray(V o, V d, boolean ds, boolean i) {
-        this.o = o.clone();
-        this.d = d.clone();
+        this.o = o;
+        this.d = d;
         this.ds = ds;
         this.i = i;
+    }
+
+    @Override
+    public Object toJson() {
+        return new JsonObject("o", o, "d", d, "ds", ds, "i", i);
     }
 
     @Override
@@ -33,12 +41,12 @@ public abstract class Ray<V extends Vec<V>> implements Collider<V> {
     }
 
     @Override
-    public double length() {
-        return d.isZero() ? 0 : Double.POSITIVE_INFINITY;
+    public float length() {
+        return d.isZero() ? 0 : Float.POSITIVE_INFINITY;
     }
 
     @Override
-    public double sqrLength() {
-        return d.isZero() ? 0 : Double.POSITIVE_INFINITY;
+    public float sqrLength() {
+        return d.isZero() ? 0 : Float.POSITIVE_INFINITY;
     }
 }

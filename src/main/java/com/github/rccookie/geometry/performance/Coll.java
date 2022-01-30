@@ -1,36 +1,23 @@
 package com.github.rccookie.geometry.performance;
 
-public class Coll {
+import com.github.rccookie.json.JsonSerializable;
 
-    public final double rI;
-    public final double eI;
-    public final double sqrL;
+public abstract class Coll<V extends Vec<V,?>> implements JsonSerializable {
 
-    public Coll(double rI, double eI, double sqrL) {
+    public final float rI;
+    public final float sqrL;
+
+    public Coll(float rI, float sqrL) {
         this.rI = rI;
-        this.eI = eI;
         this.sqrL = sqrL;
     }
 
     @Override
-    public String toString() {
-        return "Coll{" +
-                "rI=" + rI +
-                ", eI=" + eI +
-                ", sqrL=" + sqrL +
-                '}';
-    }
+    public abstract String toString();
 
     @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(!(o instanceof Coll)) return false;
-        Coll c = (Coll) o;
-        return c.rI == rI && c.eI == eI && c.sqrL == sqrL;
-    }
+    public abstract boolean equals(Object o);
 
     @Override
-    public int hashCode() {
-        return 11 * (11 * Double.hashCode(rI) + Double.hashCode(eI)) + Double.hashCode(sqrL);
-    }
+    public abstract int hashCode();
 }

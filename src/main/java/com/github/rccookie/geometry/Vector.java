@@ -1,13 +1,12 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
-import com.github.rccookie.util.Arguments;
-import com.github.rccookie.util.Console;
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
+
+import com.github.rccookie.util.Arguments;
+import com.github.rccookie.util.Console;
 
 /**
  * Representation of a generic geometrical vector. The common abstract implementation
@@ -39,7 +38,7 @@ import java.util.Objects;
  * @see Vector2D
  * @see Vector3D
  */
-public interface Vector extends Cloneable, Saveable {
+public interface Vector extends Cloneable {
 
 
 

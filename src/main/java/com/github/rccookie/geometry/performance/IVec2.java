@@ -1,10 +1,14 @@
 package com.github.rccookie.geometry.performance;
 
+import com.github.rccookie.json.JsonArray;
+import com.github.rccookie.json.JsonCtor;
+import com.github.rccookie.json.Type;
+
 /**
  * Describes a performance-oriented implementation of a dwo-dimensional
  * vector.
  */
-public class IVec2 implements IVec<IVec2> {
+public class IVec2 implements IVec<IVec2, Vec2> {
 
     /**
      * A constant describing a zero vector. Do not modify!
@@ -54,6 +58,7 @@ public class IVec2 implements IVec<IVec2> {
      * @param x The value for the x component
      * @param y The value for the y component
      */
+    @JsonCtor(type = Type.ARRAY)
     public IVec2(int x, int y) {
         this.x = x;
         this.y = y;
@@ -110,6 +115,11 @@ public class IVec2 implements IVec<IVec2> {
     @Override
     public String toString() {
         return "["+x+"|"+y+"]";
+    }
+
+    @Override
+    public Object toJson() {
+        return new JsonArray(x, y);
     }
 
     // ------------------------------------------------------
@@ -227,7 +237,7 @@ public class IVec2 implements IVec<IVec2> {
     }
 
     @Override
-    public IVec2 invert() {
+    public IVec2 negate() {
         x = -x;
         y = -y;
         return this;
@@ -257,6 +267,20 @@ public class IVec2 implements IVec<IVec2> {
         return this;
     }
 
+    /**
+     * Adds the given amount onto the x and y component of the
+     * vector.
+     *
+     * @param x The value to add to the x component
+     * @param y The value to add to the y component
+     * @return This vector
+     */
+    public IVec2 add(int x, int y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+
     @Override
     public IVec2 subtract(IVec2 v) {
         x -= v.x;
@@ -279,12 +303,22 @@ public class IVec2 implements IVec<IVec2> {
     }
 
     @Override
+    public Vec2 scaled(float f) {
+        return new Vec2(x * f, y * f);
+    }
+
+    @Override
     public IVec2 divided(int d) {
         return new IVec2(x / d, y / d);
     }
 
     @Override
-    public IVec2 inverted() {
+    public Vec2 divided(float d) {
+        return new Vec2(x / d, y / d);
+    }
+
+    @Override
+    public IVec2 negated() {
         return new IVec2(-x, -y);
     }
 
@@ -297,17 +331,29 @@ public class IVec2 implements IVec<IVec2> {
 
     @Override
     public IVec2 added(IVec2 v) {
-        return new IVec2(x + v.y, y + v.y);
+        return new IVec2(x + v.x, y + v.y);
+    }
+
+    /**
+     * Returns a vector with the given values added onto the
+     * corresponding component of this vector.
+     *
+     * @param x The value to add to the x component
+     * @param y The value to add to the y component
+     * @return The vector with the values added
+     */
+    public IVec2 added(int x, int y) {
+        return new IVec2(this.x + x, this.y + y);
     }
 
     @Override
     public IVec2 subtracted(IVec2 v) {
-        return new IVec2(x - v.y, y - v.y);
+        return new IVec2(x - v.x, y - v.y);
     }
 
     @Override
     public IVec2 multiplied(IVec2 v) {
-        return new IVec2(x * v.y, y * v.y);
+        return new IVec2(x * v.x, y * v.y);
     }
 
     // ------------------------------------------------------
@@ -323,7 +369,7 @@ public class IVec2 implements IVec<IVec2> {
     }
 
     @Override
-    public Vec2 toD() {
+    public Vec2 toF() {
         return new Vec2(x, y);
     }
 
@@ -350,9 +396,9 @@ public class IVec2 implements IVec<IVec2> {
      * @param b The second point
      * @return The distance between the two points
      */
-    public static double dist(IVec2 a, IVec2 b) {
-        double x = b.x - a.x, y = b.y - a.y;
-        return Math.sqrt(x * x + y * y);
+    public static float dist(IVec2 a, IVec2 b) {
+        float x = b.x - a.x, y = b.y - a.y;
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     /**
@@ -383,5 +429,18 @@ public class IVec2 implements IVec<IVec2> {
     public static IVec2 reflect(IVec2 v, IVec2 n) {
         int f = 2 * (n.x * v.x + n.y * v.y);
         return new IVec2(v.x - f * n.x, v.y - f * n.y);
+    }
+
+    public static IVec2 min(IVec2 a, IVec2 b) {
+        return new IVec2(Math.min(a.x, b.x), Math.min(a.y, b.y));
+    }
+
+    public static IVec2 max(IVec2 a, IVec2 b) {
+        return new IVec2(Math.max(a.x, b.x), Math.max(a.y, b.y));
+    }
+
+    public static IVec2 clamp(IVec2 x, IVec2 l, IVec2 h) {
+        //noinspection SuspiciousNameCombination
+        return new IVec2(FastMath.clamp(x.x, l.x, h.x), FastMath.clamp(x.y, l.y, h.y));
     }
 }

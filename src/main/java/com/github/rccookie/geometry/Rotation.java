@@ -1,19 +1,13 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
-import com.github.rccookie.data.json.JsonField;
-
-public class Rotation implements Cloneable, Saveable {
+public class Rotation implements Cloneable {
 
     public static final String SAVE_DIR = "saves\\geometry\\rotations";
 
     private static final long serialVersionUID = -8758776053760328675L;
 
-    @JsonField
     public double z;
-    @JsonField
     public double y;
-    @JsonField
     public double x;
 
 
@@ -70,22 +64,5 @@ public class Rotation implements Cloneable, Saveable {
 
     public Rotation added(Rotation addedRotation) {
         return clone().add(addedRotation);
-    }
-
-
-
-
-
-    @Override
-    public String getSaveName() {
-        if(saveName == null) return "rotation" + hashCode();
-        return saveName;
-    }
-
-
-    private String saveName = null;
-    @Override
-    public void setSaveName(String name) {
-        saveName = name;
     }
 }

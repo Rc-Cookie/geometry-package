@@ -2,13 +2,13 @@ package com.github.rccookie.geometry.performance;
 
 import com.github.rccookie.json.JsonSerializable;
 
-public abstract class Line<V extends Vec<V,?>> implements Collider<V>, JsonSerializable {
+public abstract class ILine<V extends IVec<V,?>> implements JsonSerializable {
 
     public final V a;
     public final V b;
     public boolean ds;
 
-    public Line(V a, V b, boolean ds) {
+    public ILine(V a, V b, boolean ds) {
         this.a = a;
         this.b = b;
         this.ds = ds;
@@ -17,8 +17,8 @@ public abstract class Line<V extends Vec<V,?>> implements Collider<V>, JsonSeria
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
-        if(!(o instanceof Line)) return false;
-        Line<?> l = (Line<?>) o;
+        if(!(o instanceof ILine)) return false;
+        ILine<?> l = (ILine<?>) o;
         return a.equals(l.a) && b.equals(l.b);
     }
 
@@ -29,6 +29,6 @@ public abstract class Line<V extends Vec<V,?>> implements Collider<V>, JsonSeria
 
     @Override
     public String toString() {
-        return "Line{"+a+" to "+b+'}';
+        return "ILine{"+a+" to "+b+'}';
     }
 }

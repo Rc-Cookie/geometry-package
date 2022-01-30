@@ -1,10 +1,9 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
-import com.github.rccookie.util.Arguments;
-
 import java.util.Arrays;
 import java.util.Objects;
+
+import com.github.rccookie.util.Arguments;
 
 /**
  * Representation of a generic geometrical vector. The common abstract implementation
@@ -36,7 +35,7 @@ import java.util.Objects;
  * @see Vector2D
  * @see Vector3D
  */
-public interface IntVector extends Cloneable, Saveable {
+public interface IntVector extends Cloneable {
 
 
 

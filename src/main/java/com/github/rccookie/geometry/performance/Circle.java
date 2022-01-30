@@ -1,28 +1,33 @@
 package com.github.rccookie.geometry.performance;
 
-public class Circle implements Collider<Vec2> {
+import com.github.rccookie.json.JsonCtor;
+import com.github.rccookie.json.JsonObject;
+import com.github.rccookie.json.JsonSerializable;
+
+public class Circle implements Collider2, JsonSerializable {
 
     public final Vec2 c;
-    public double r;
-    public double a;
+    public float r;
+    public float a;
     public boolean i;
 
-    public Circle(Vec2 c, double r, double a, boolean i) {
-        this.c = c.clone();
+    @JsonCtor({"c", "r", "a", "i"})
+    public Circle(Vec2 c, float r, float a, boolean i) {
+        this.c = c;
         this.r = r;
         this.a = a;
         this.i = i;
     }
 
-    public Circle(Vec2 c, double r, double a) {
-        this.c = c.clone();
+    public Circle(Vec2 c, float r, float a) {
+        this.c = c;
         this.r = r;
         this.a = a;
         i = false;
     }
 
-    public Circle(Vec2 c, double r) {
-        this.c = c.clone();
+    public Circle(Vec2 c, float r) {
+        this.c = c;
         this.r = r;
         a = 0;
         i = false;
@@ -42,64 +47,71 @@ public class Circle implements Collider<Vec2> {
     }
 
     @Override
-    public double length() {
-        return 2 * r * Math.PI;
+    public Object toJson() {
+        return new JsonObject("c", c, "r", r, "a", a, "i", i);
     }
 
     @Override
-    public double sqrLength() {
-        double l = 2 * r * Math.PI;
+    public float length() {
+        return 2 * r * FastMath.PI;
+    }
+
+    @Override
+    public float sqrLength() {
+        float l = 2 * r * FastMath.PI;
         return l * l;
     }
 
     @Override
-    public Vec2 get(double i) {
-        double angle = a + i * 360;
+    public Vec2 get(float i) {
+        float angle = a + i * 360;
         return new Vec2(c.x + FastMath.cos(angle) * r, c.y + FastMath.sin(angle) * r);
     }
 
     @Override
-    public Vec2 getNormal(double i) {
-        double angle = a + i * 360 + (this.i ? 90 : -90);
-        return new Vec2(c.x + FastMath.cos(angle), c.y + FastMath.sin(angle));
+    public Vec2 getNormal(float i) {
+        float angle = a + i * 360;
+        return this.i ?
+                new Vec2(-FastMath.cos(angle), -FastMath.sin(angle)) :
+                new Vec2(FastMath.cos(angle), FastMath.sin(angle));
     }
 
     @Override
-    public Coll coll(Ray<Vec2> r, double maxSqrL) {
-        double dx = r.o.x - c.x, dy = r.o.y - c.y;
+    public Coll2 coll(Ray<Vec2> r, float maxSqrL) {
+        float dx = r.o.x - c.x, dy = r.o.y - c.y;
 
-        double a = 2 * (r.d.x * r.d.x + r.d.y * r.d.y);
-        double b = 2 * (dx * r.d.x + dy * r.d.y);
-        double x = b * b - 2 * a * (dx * dx + dy * dy - this.r * this.r);
+        float a = 2 * (r.d.x * r.d.x + r.d.y * r.d.y);
+        float b = 2 * (dx * r.d.x + dy * r.d.y);
+        float x = b * b - 2 * a * (dx * dx + dy * dy - this.r * this.r);
 
         if(x < 0) return null;
-        x = Math.sqrt(x);
+        x = (float) Math.sqrt(x);
 
-        double rHit;
+        float rHit;
         if(i) {
-            double i2 = (-b + x)/a;
+            float i2 = (-b + x)/a;
             if(i2 < 0) return null;
             rHit = i2;
         }
         else {
-            double i1 = (-b - x)/a;
+            float i1 = (-b - x)/a;
             if(i1 < 0) return null;
             rHit = i1;
         }
 
         dx = rHit * r.d.x;
         dy = rHit * r.d.y;
-        double sqrL = dx * dx + dy * dy;
+        float sqrL = dx * dx + dy * dy;
         if(sqrL > maxSqrL) return null;
 
-        double cHit = (FastMath.atan2(r.o.y + r.d.y * rHit - c.y, r.o.x + r.d.x * rHit - c.x) - this.a) / 360 + 0.25;
+        float cHit = (FastMath.atan2(r.o.y + r.d.y * rHit - c.y, r.o.x + r.d.x * rHit - c.x) - this.a) / 360;// + 0.25;
         if(cHit < 0) cHit++;
-        return new Coll(cHit, rHit, sqrL);
+        return new Coll2(rHit, cHit, sqrL);
     }
 
     @Override
     public boolean contains(Vec2 p) {
-        double dx = p.x - c.x, dy = p.y - c.y;
+        float dx = p.x - c.x, dy = p.y - c.y;
         return (dx * dx + dy * dy <= r) ^ i;
     }
 }

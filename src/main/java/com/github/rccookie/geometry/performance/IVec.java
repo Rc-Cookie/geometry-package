@@ -1,5 +1,6 @@
 package com.github.rccookie.geometry.performance;
 
+import com.github.rccookie.json.JsonSerializable;
 import com.github.rccookie.util.Cloneable;
 
 /**
@@ -9,7 +10,7 @@ import com.github.rccookie.util.Cloneable;
  *
  * @param <V> The type of the implementing class
  */
-public interface IVec<V extends IVec<V>> extends Cloneable<V> {
+public interface IVec<V extends IVec<V, FV>, FV extends Vec<FV, V>> extends Cloneable<V>, JsonSerializable {
 
     /**
      * Creates and returns copy of this vector.
@@ -37,7 +38,6 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
      *             try accessing the field of the implementation
      *             directly instead
      */
-    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     int getDim(int d);
 
@@ -113,6 +113,7 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
      *             try accessing the field of the implementation
      *             directly instead
      */
+    @Deprecated
     V setDim(int d, int v);
 
     /**
@@ -134,7 +135,7 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
 
     /**
      * Divides each component of this vector by the given
-     * denominator. {@link #scale(double)} should be preferred over
+     * denominator. {@link #scale(int)} should be preferred over
      * this method if the factor is also available as division takes
      * considerably longer than multiplication.
      *
@@ -144,11 +145,11 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
     V divide(int d);
 
     /**
-     * Inverts each component of this vector.
+     * Negates each component of this vector.
      *
      * @return This vector
      */
-    V invert();
+    V negate();
 
     // ------------------------------------------------------
 
@@ -194,8 +195,17 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
     V scaled(int f);
 
     /**
+     * Returns a copy of this vector where each component is scaled
+     * by the given factor.
+     *
+     * @param f The factor to scale by
+     * @return The scaled vector
+     */
+    FV scaled(float f);
+
+    /**
      * Returns a copy of this vector where each component is divided
-     * by the given denominator. {@link #scaled(double)} should be
+     * by the given denominator. {@link #scaled(int)} should be
      * preferred over this method if the factor is also available as
      * division takes considerably longer than multiplication.
      *
@@ -205,12 +215,23 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
     V divided(int d);
 
     /**
+     * Returns a copy of this vector where each component is divided
+     * by the given denominator. {@link #scaled(int)} should be
+     * preferred over this method if the factor is also available as
+     * division takes considerably longer than multiplication.
+     *
+     * @param d The denominator to divide by
+     * @return The divided vector
+     */
+    FV divided(float d);
+
+    /**
      * Returns a copy of this vector where each component is
-     * inverted.
+     * negated.
      *
      * @return The inverted vector
      */
-    V inverted();
+    V negated();
 
     // ------------------------------------------------------
 
@@ -244,11 +265,11 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
     // ------------------------------------------------------
 
     /**
-     * Returns a {@link Vec2} representing this vector as good as
+     * Returns a {@link IVec2} representing this vector as good as
      * possible. Any additional components of this vector will be
      * ignored, and if components are not defined in this vector that
      * are required they will be set to {@code 0}.
-     * <p>If this vector is already a {@link Vec2} this will return
+     * <p>If this vector is already a {@link IVec2} this will return
      * itself and <b>not</b> create a copy!</p>
      *
      * @return A 2D representation of this vector
@@ -256,11 +277,11 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
     IVec2 to2();
 
     /**
-     * Returns a {@link Vec3} representing this vector as good as
+     * Returns a {@link IVec3} representing this vector as good as
      * possible. Any additional components of this vector will be
      * ignored, and if components are not defined in this vector that
      * are required they will be set to {@code 0}.
-     * <p>If this vector is already a {@link Vec3} this will return
+     * <p>If this vector is already a {@link IVec3} this will return
      * itself and <b>not</b> create a copy!</p>
      *
      * @return A 2D representation of this vector
@@ -272,7 +293,7 @@ public interface IVec<V extends IVec<V>> extends Cloneable<V> {
      * are encouraged to give more specific information about the type
      * of vector they return.
      *
-     * @return A double based version of this vector
+     * @return A float based version of this vector
      */
-    Vec<?> toD();
+    FV toF();
 }

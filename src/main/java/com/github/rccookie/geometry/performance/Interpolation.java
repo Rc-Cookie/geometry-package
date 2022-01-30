@@ -13,7 +13,7 @@ public interface Interpolation {
      * @param x The input value
      * @return The output value
      */
-    double get(double x);
+    float get(float x);
 
     /**
      * Calculates the result for the given input and maps
@@ -26,7 +26,7 @@ public interface Interpolation {
      * @return The output value mapped into the interval
      *         {@code min..max}
      */
-    default double get(double x, double min, double max) {
+    default float get(float x, float min, float max) {
         return min + get(x) * (max - min);
     }
 
@@ -79,7 +79,7 @@ public interface Interpolation {
      * Maps the square root of the input to the output.
      * <p><code>x -> √x</code>
      */
-    Interpolation SQRT = Math::sqrt;
+    Interpolation SQRT = a -> (float) Math.sqrt(a);
 
     /**
      * Maps the input value to a smooth curve from {@code 0} to
@@ -108,12 +108,12 @@ public interface Interpolation {
      * period has a length of {@code 1}.
      * <p><code>x -> 0.5+0.5sin(360x) | sin in degrees</code>
      */
-    Interpolation SIN01 = x -> 0.5 + 0.5 * FastMath.sin(x * 360);
+    Interpolation SIN01 = x -> 0.5f + 0.5f * FastMath.sin(x * 360);
 
     /**
      * Maps the input to {@code e} raised to the power of the input
      * value.
      * <p><code>x -> exp(x)</code>
      */
-    Interpolation EXP = Math::exp;
+    Interpolation EXP = a -> (float) Math.exp(a);
 }

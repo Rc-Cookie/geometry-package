@@ -2,7 +2,7 @@ package com.github.rccookie.geometry.performance;
 
 import java.util.Arrays;
 
-public class Mat<I extends Vec<I>, O extends Vec<O>> {
+public class Mat<I extends Vec<I,?>, O extends Vec<O,?>> {
 
     public final I[] r;
     public final int w, h;
@@ -48,12 +48,12 @@ public class Mat<I extends Vec<I>, O extends Vec<O>> {
     }
 
     @SuppressWarnings("deprecation")
-    public double get(int x, int y) {
+    public float get(int x, int y) {
         return r[y].getDim(x);
     }
 
     @SuppressWarnings("deprecation")
-    public void set(int x, int y, double v) {
+    public void set(int x, int y, float v) {
         r[y].setDim(x, v);
     }
 
@@ -66,11 +66,11 @@ public class Mat<I extends Vec<I>, O extends Vec<O>> {
     }
 
     @SuppressWarnings("deprecation")
-    public <I2 extends Vec<I2>> Mat<I2, O> multiply(Mat<I2,I> m) {
+    public <I2 extends Vec<I2,?>> Mat<I2, O> multiply(Mat<I2,I> m) {
         Mat<I2,O> out = new Mat<>(m.i, o);
 
         for(int y=0; y<out.h; y++) for(int x=0; x<out.w; x++) {
-            double v = 0;
+            float v = 0;
             for(int i=0; i<w; i++)
                 v += r[y].getDim(i) * m.get(x, i);
             out.set(x, y, v);
@@ -80,15 +80,5 @@ public class Mat<I extends Vec<I>, O extends Vec<O>> {
 
     public O newO() {
         return o.clone();
-    }
-
-
-    public static void main(String[] args) {
-        Mat<Vec3, Vec2> m = new Mat3x2(new Vec3[] { new Vec3(3, 2, 1), new Vec3(1, 0, 2) });
-        Mat<Vec2, Vec3> n = new Mat2x3(new Vec2[] { new Vec2(1, 2), new Vec2(0, 1), new Vec2(4, 0) });
-        System.out.println(m);
-        System.out.println(n);
-        Mat<Vec2, Vec2> mn = m.multiply(n);
-        System.out.println(mn);
     }
 }

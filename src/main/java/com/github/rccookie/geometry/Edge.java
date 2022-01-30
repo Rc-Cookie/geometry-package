@@ -1,10 +1,8 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
-
 import java.util.Objects;
 
-public class Edge implements Border, Saveable {
+public class Edge implements Border {
 
     public final Vector start;
     public final Vector end;

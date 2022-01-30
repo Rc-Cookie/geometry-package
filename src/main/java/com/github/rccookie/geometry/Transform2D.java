@@ -2,9 +2,6 @@ package com.github.rccookie.geometry;
 
 import java.util.Objects;
 
-import com.github.rccookie.data.Saveable;
-import com.github.rccookie.data.json.JsonField;
-
 /**
  * The class transform represents the location and the rotation of an object
  * in a two dimentional world. It may also be used for example to save a movements
@@ -13,7 +10,7 @@ import com.github.rccookie.data.json.JsonField;
  * @author RcCookie
  * @version 1.0
  */
-public class Transform2D implements Cloneable, Saveable {
+public class Transform2D implements Cloneable {
 
     public static final String SAVE_DIR = "saves\\geometry\\transforms";
 
@@ -22,13 +19,11 @@ public class Transform2D implements Cloneable, Saveable {
     /**
      * The location part of the transform represented by a vector.
      */
-    @JsonField
     public final Vector2D location;
 
     /**
      * The rotation part of the transform.
      */
-    @JsonField
     public double rotation;
 
 
@@ -130,20 +125,6 @@ public class Transform2D implements Cloneable, Saveable {
 
 
 
-
-
-    @Override
-    public String getSaveName() {
-        if(saveName == null) return "transform2D" + hashCode();
-        return saveName;
-    }
-
-
-    private String saveName = null;
-    @Override
-    public void setSaveName(String name) {
-        saveName = name;
-    }
 
     @Override
     public String toString() {

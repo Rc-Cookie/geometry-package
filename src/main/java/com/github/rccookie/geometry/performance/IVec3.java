@@ -1,6 +1,10 @@
 package com.github.rccookie.geometry.performance;
 
-public class IVec3 implements IVec<IVec3> {
+import com.github.rccookie.json.JsonArray;
+import com.github.rccookie.json.JsonCtor;
+import com.github.rccookie.json.Type;
+
+public class IVec3 implements IVec<IVec3, Vec3> {
 
     public static final IVec3 ZERO = new IVec3();
     public static final IVec3 ONE = new IVec3(1, 1, 1);
@@ -22,6 +26,7 @@ public class IVec3 implements IVec<IVec3> {
         z = 0;
     }
 
+    @JsonCtor(type = Type.ARRAY)
     public IVec3(int x, int y, int z) {
         this.x = x;
         this.y = y;
@@ -57,6 +62,11 @@ public class IVec3 implements IVec<IVec3> {
     @Override
     public String toString() {
         return "["+x+"|"+y+"|"+z+"]";
+    }
+
+    @Override
+    public Object toJson() {
+        return new JsonArray(x, y, z);
     }
 
     // ------------------------------------------------------
@@ -165,7 +175,7 @@ public class IVec3 implements IVec<IVec3> {
     }
 
     @Override
-    public IVec3 invert() {
+    public IVec3 negate() {
         x = -x;
         y = -y;
         z = -z;
@@ -179,6 +189,22 @@ public class IVec3 implements IVec<IVec3> {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
+    }
+
+    /**
+     * Adds the given amount onto the x, y and z component of the
+     * vector.
+     *
+     * @param x The value to add to the x component
+     * @param y The value to add to the y component
+     * @param z The value to add to the z component
+     * @return This vector
+     */
+    public IVec3 add(int x, int y, int z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
         return this;
     }
 
@@ -206,12 +232,22 @@ public class IVec3 implements IVec<IVec3> {
     }
 
     @Override
+    public Vec3 scaled(float f) {
+        return new Vec3(x * f, y * f, z * f);
+    }
+
+    @Override
     public IVec3 divided(int d) {
         return new IVec3(x / d, y / d, z / d);
     }
 
     @Override
-    public IVec3 inverted() {
+    public Vec3 divided(float d) {
+        return new Vec3(x / d, y / d, z / d);
+    }
+
+    @Override
+    public IVec3 negated() {
         return new IVec3(-x, -y, -z);
     }
 
@@ -219,17 +255,30 @@ public class IVec3 implements IVec<IVec3> {
 
     @Override
     public IVec3 added(IVec3 v) {
-        return new IVec3(x + v.y, y + v.y, z + v.z);
+        return new IVec3(x + v.x, y + v.y, z + v.z);
+    }
+
+    /**
+     * Returns a vector with the given values added onto the
+     * corresponding component of this vector.
+     *
+     * @param x The value to add to the x component
+     * @param y The value to add to the y component
+     * @param z The value to add to the z component
+     * @return The vector with the values added
+     */
+    public IVec3 added(int x, int y, int z) {
+        return new IVec3(this.x + x, this.y + y, this.z + z);
     }
 
     @Override
     public IVec3 subtracted(IVec3 v) {
-        return new IVec3(x - v.y, y - v.y, z - v.z);
+        return new IVec3(x - v.x, y - v.y, z - v.z);
     }
 
     @Override
     public IVec3 multiplied(IVec3 v) {
-        return new IVec3(x * v.y, y * v.y, z * v.z);
+        return new IVec3(x * v.x, y * v.y, z * v.z);
     }
 
     // ------------------------------------------------------
@@ -245,7 +294,7 @@ public class IVec3 implements IVec<IVec3> {
     }
 
     @Override
-    public Vec<?> toD() {
+    public Vec3 toF() {
         return new Vec3(x, y, z);
     }
 }

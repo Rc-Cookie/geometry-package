@@ -1,18 +1,17 @@
 package com.github.rccookie.geometry.performance;
 
-import com.github.rccookie.json.Json;
 import com.github.rccookie.json.JsonCtor;
 import com.github.rccookie.json.JsonObject;
 import com.github.rccookie.util.Console;
 
-public class Line2 extends Line<Vec2> implements Collider2 {
+public class ILine2 extends ILine<IVec2> {
 
-    public Line2(Vec2 a, Vec2 b) {
+    public ILine2(IVec2 a, IVec2 b) {
         super(a, b, false);
     }
 
     @JsonCtor({"a", "b", "ds"})
-    public Line2(Vec2 a, Vec2 b, boolean ds) {
+    public ILine2(IVec2 a, IVec2 b, boolean ds) {
         super(a, b, ds);
     }
 
@@ -21,30 +20,25 @@ public class Line2 extends Line<Vec2> implements Collider2 {
         return new JsonObject("a", a, "b", b, "ds", ds);
     }
 
-    @Override
     public float length() {
         float dx = b.x - a.x, dy = b.y - a.y;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
-    @Override
-    public float sqrLength() {
-        float dx = b.x - a.x, dy = b.y - a.y;
+    public int sqrLength() {
+        int dx = b.x - a.x, dy = b.y - a.y;
         return dx * dx + dy * dy;
     }
 
-    @Override
     public Vec2 get(float i) {
         return new Vec2(a.x + i * (b.x - a.x), a.y + i * (b.y - a.y));
     }
 
-    @Override
-    public Vec2 getNormal(float i) {
-        return new Vec2(a.y - b.y, b.x - a.x);
+    public IVec2 getNormal(float i) {
+        return new IVec2(a.y - b.y, b.x - a.x);
     }
 
     @SuppressWarnings("DuplicatedCode")
-    @Override
     public Coll2 coll(Ray<Vec2> r, float maxSqrL) {
 
         float abx = b.x - a.x, aby = b.y - a.y;
@@ -66,8 +60,8 @@ public class Line2 extends Line<Vec2> implements Collider2 {
         return sqrL > maxSqrL ? null : new Coll2(rHit, lHit, sqrL);
     }
 
-    @Override
     public boolean contains(Vec2 p) {
+        //noinspection DuplicatedCode
         if(a.x == b.x) {
             Console.info("x equals");
             if(a.y == b.y) return a.x == p.x && a.y == b.y;
@@ -81,11 +75,5 @@ public class Line2 extends Line<Vec2> implements Collider2 {
         }
         float i1 = (p.x - a.x) / (b.x - a.x), i2 = (p.y - a.y) / (b.y - a.y);
         return i1 == i2 && i1 >= 0 && i1 <= 1;
-    }
-
-    public static void main(String[] args) {
-        Json.write(new Line2(new Vec2(1, 2), new Vec2(3, 4)), System.out);
-        System.out.println(Json.parse(Json.toString(new Vec2(3, 4))).as(Vec2.class));
-        System.out.println(Json.parse(Json.toString(new Line2(new Vec2(1, 2), new Vec2(3, 4)))).as(Line2.class));
     }
 }

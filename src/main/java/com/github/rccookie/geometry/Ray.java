@@ -1,9 +1,8 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
 import java.util.Objects;
 
-public class Ray implements Border, Saveable {
+public class Ray implements Border {
 
     public final Vector root;
     public final Vector direction;

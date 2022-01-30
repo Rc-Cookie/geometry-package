@@ -6,7 +6,7 @@
 
   <groupId>com.github.rccookie</groupId>
   <artifactId>geometry</artifactId>
-  <version>1.5.1.0</version>
+  <version>1.8.3.0</version>
 
   <name>geometry</name>
 
@@ -24,33 +24,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.github.rccookie</groupId>
-      <artifactId>data</artifactId>
-      <version>1.1.0.0</version>
-      <scope>compile</scope>
+        <groupId>com.github.rccookie</groupId>
+        <artifactId>json</artifactId>
+        <version>4.3.3</version>
+        <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.rccookie</groupId>
       <artifactId>util</artifactId>
-      <version>1.5.5.0</version>
-    </dependency>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>RELEASE</version>
-          <scope>compile</scope>
-      </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>5.8.0-RC1</version>
-      <scope>test</scope>
+      <version>1.5.6.0</version>
     </dependency>
   </dependencies>
 
@@ -72,7 +54,6 @@
                 <directory>src/main/java</directory>
                 <includes>
                   <include>**/*.java</include>
-                  <include>**/*.gwt.xml</include>
                 </includes>
               </resource>
             </resources>

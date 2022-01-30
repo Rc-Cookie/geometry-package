@@ -412,29 +412,6 @@ public abstract class AbstractIntVector<V extends AbstractIntVector<? extends V>
 
 
 
-
-    // ------------------------------------------------------------------------------------
-    // Saving methods
-    // ------------------------------------------------------------------------------------
-
-
-
-    
-    @Override
-    public String getSaveName() {
-        return saveName != null ? saveName : getClass().getSimpleName().toLowerCase() + hashCode();
-    }
-
-    /**
-     * @param name The new save name
-     */
-    @Override
-    public void setSaveName(String name) {
-        saveName = name;
-    }
-
-
-
     
     // ------------------------------------------------------------------------------------
     // Internals

@@ -1,20 +1,22 @@
 package com.github.rccookie.geometry.performance;
 
-public interface Collider<V extends Vec<V>> {
+public interface Collider<V extends Vec<V,?>> {
 
-    double length();
+    float length();
 
-    double sqrLength();
+    float sqrLength();
 
-    V get(double i);
+    V get(float i);
 
-    V getNormal(double i);
+    V getNormal(float i);
 
-    Coll coll(Ray<V> r, double maxSqrL);
+    Coll<V> coll(Ray<V> r, float maxSqrL);
 
-    default Coll coll(Ray<V> r) {
-        return coll(r, Double.POSITIVE_INFINITY);
+    default Coll<V> coll(Ray<V> r) {
+        return coll(r, Float.POSITIVE_INFINITY);
     }
 
     boolean contains(V p);
+
+//    V intersection(Collider<V> c);
 }

@@ -1,9 +1,6 @@
 package com.github.rccookie.geometry;
 
-import com.github.rccookie.data.Saveable;
-import com.github.rccookie.data.json.JsonField;
-
-public class Transform3D implements Cloneable, Saveable {
+public class Transform3D implements Cloneable {
 
     public static final String SAVE_DIR = "saves\\geometry\\transforms";
 
@@ -12,19 +9,16 @@ public class Transform3D implements Cloneable, Saveable {
     /**
      * Do not set to {@code null}!
      */
-    @JsonField
     public Vector3D location;
 
     /**
      * Do not set to {@code null}!
      */
-    @JsonField
     public Rotation rotation;
 
     /**
      * Do not set to {@code null}!
      */
-    @JsonField
     public Vector3D scale;
 
 
@@ -52,22 +46,5 @@ public class Transform3D implements Cloneable, Saveable {
     @Override
     public Transform3D clone() {
         return new Transform3D(this);
-    }
-
-
-
-
-
-    @Override
-    public String getSaveName() {
-        if(saveName == null) return "transform" + hashCode();
-        return saveName;
-    }
-
-
-    private String saveName = null;
-    @Override
-    public void setSaveName(String name) {
-        saveName = name;
     }
 }

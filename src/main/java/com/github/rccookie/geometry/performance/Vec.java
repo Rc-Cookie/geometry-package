@@ -1,5 +1,6 @@
 package com.github.rccookie.geometry.performance;
 
+import com.github.rccookie.json.JsonSerializable;
 import com.github.rccookie.util.Cloneable;
 
 /**
@@ -9,7 +10,7 @@ import com.github.rccookie.util.Cloneable;
  *
  * @param <V> The type of the implementing class
  */
-public interface Vec<V extends Vec<V>> extends Cloneable<V> {
+public interface Vec<V extends Vec<V, IV>, IV extends IVec<IV, V>> extends Cloneable<V>, JsonSerializable {
 
     /**
      * Creates and returns copy of this vector.
@@ -39,7 +40,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      */
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    double getDim(int d);
+    float getDim(int d);
 
     /**
      * Calculates the length of this vector. Performance-intensive,
@@ -47,7 +48,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *
      * @return The length of this vector
      */
-    double abs();
+    float abs();
 
     /**
      * Calculates the squared length of this vector by not taking
@@ -59,7 +60,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *
      * @return The squared length of this vector
      */
-    double sqrAbs();
+    float sqrAbs();
 
     /**
      * Calculates the angle to the x-axis vector. Depending on the
@@ -67,7 +68,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *
      * @return The angle between this vector and the x-axis
      */
-    double angle();
+    float angle();
 
     /**
      * Calculates the angle to the given vector. Depending on the
@@ -75,7 +76,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *
      * @return The angle between this vector and the given one
      */
-    double angle(V v);
+    float angle(V v);
 
     /**
      * Calculates the dot product of this vector and the given one.
@@ -83,7 +84,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param v The vector to calculate the dot product with
      * @return The dot product of this and the given vector
      */
-    double dot(V v);
+    float dot(V v);
 
     /**
      * Determines whether this vector is a zero vector, meaning all
@@ -94,11 +95,19 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
     boolean isZero();
 
     /**
+     * Determines whether this vector is valid, meaning that all
+     * of its components are finite and not NaNs.
+     *
+     * @return Whether this vector is valid
+     */
+    boolean isValid();
+
+    /**
      * Creates an array with the components of this vector.
      *
      * @return An array representation of this vector
      */
-    double[] toArray();
+    float[] toArray();
 
     // ------------------------------------------------------
 
@@ -108,7 +117,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param v The value to assign
      * @return This vector
      */
-    V set(double v);
+    V set(float v);
 
     /**
      * Sets this vector to be equal to the given vector.
@@ -125,7 +134,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param a The array describing the values to set
      * @return This vector
      */
-    V set(double[] a);
+    V set(float[] a);
 
     /**
      * Sets the component in the given dimension.
@@ -137,7 +146,8 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *             try accessing the field of the implementation
      *             directly instead
      */
-    V setDim(int d, double v);
+    @Deprecated
+    V setDim(int d, float v);
 
     /**
      * Sets all components of this vector to {@code 0}.
@@ -154,25 +164,25 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param f The factor to scale by
      * @return This vector
      */
-    V scale(double f);
+    V scale(float f);
 
     /**
      * Divides each component of this vector by the given
-     * denominator. {@link #scale(double)} should be preferred over
+     * denominator. {@link #scale(float)} should be preferred over
      * this method if the factor is also available as division takes
      * considerably longer than multiplication.
      *
      * @param d The denominator to divide by
      * @return This vector
      */
-    V divide(double d);
+    V divide(float d);
 
     /**
-     * Inverts each component of this vector.
+     * Negates each component of this vector.
      *
      * @return This vector
      */
-    V invert();
+    V negate();
 
     /**
      * Normalizes this vector so that it's length is equal to {@code 0}
@@ -226,7 +236,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *          vector, {@code 1} means exactly the target vector
      * @return This vector
      */
-    V lerp(V t, double a);
+    V lerp(V t, float a);
 
     /**
      * Projects this vector onto the given vector.
@@ -262,26 +272,26 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param f The factor to scale by
      * @return The scaled vector
      */
-    V scaled(double f);
+    V scaled(float f);
 
     /**
      * Returns a copy of this vector where each component is divided
-     * by the given denominator. {@link #scaled(double)} should be
+     * by the given denominator. {@link #scaled(float)} should be
      * preferred over this method if the factor is also available as
      * division takes considerably longer than multiplication.
      *
      * @param d The denominator to divide by
      * @return The divided vector
      */
-    V divided(double d);
+    V divided(float d);
 
     /**
      * Returns a copy of this vector where each component is
-     * inverted.
+     * negated.
      *
      * @return The inverted vector
      */
-    V inverted();
+    V negated();
 
     /**
      * Returns a normalized copy of this vector that has a length
@@ -332,7 +342,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *          vector, {@code 1} means exactly the target vector
      * @return The lerped vector
      */
-    V lerped(V t, double a);
+    V lerped(V t, float a);
 
     /**
      * Returns a copy of this vector projected onto the given vector.
@@ -365,7 +375,7 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      * @param <W> The type of vector the matrix produces
      * @return THe result of the matrix transform
      */
-    <W extends Vec<W>> W transformed(Mat<V,W> m);
+    <W extends Vec<W,?>> W transformed(Mat<V,W> m);
 
     // ------------------------------------------------------
 
@@ -400,5 +410,5 @@ public interface Vec<V extends Vec<V>> extends Cloneable<V> {
      *
      * @return An int representation of this vector
      */
-    IVec<?> toI();
+    IV toI();
 }
